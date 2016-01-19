@@ -12,6 +12,7 @@ public:
   ToyPdf(): AbsICPVPdf(), m_m(0.), m_w(1.), m_fbkg(0.), m_wrtag(0.) {}
   ToyPdf(const ToyPdf& opdf);
 
+  double operator() (const ICPVEvt& evt) {return 0;}
   /// Calculate PDF
   double operator() (const double& dt);
   /// Calculate PDF

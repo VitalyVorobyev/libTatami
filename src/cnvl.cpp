@@ -9,23 +9,6 @@ const double cnvl::sqrt_pi      = 1.77245385090551588191942755656782537698745727
 const double cnvl::inv_sqrt_2pi = 0.398942280401432702863218082711682654917240142822265625;
 const double cnvl::sqrt2        = 1.4142135623730951454746218587388284504413604736328125;
 
-//int cnvl::SetKKCS(const double& _K, const double& _Kb, const double& _C, const double& _S){
-//  K = _K; Kb = _Kb; C = _C; S = _S;
-//  return 0;
-//}
-//int cnvl::SetFlvXi(const int _flv, const int _xi){
-//  flv = _flv, xi = _xi;
-//  return 0;
-//}
-//int cnvl::SetXi(const int _xi){
-//  xi = _xi;
-//  return 0;
-//}
-//int cnvl::SetSinCos(const double& sin, const double& cos){
-//  sin2beta = sin; cos2beta = cos;
-//  return 0;
-//}
-
 double cnvl::xXi_conv_gauss_by_int(nXi_t p_func,
                                     const double& t, const double& xd,
                                     const double& mu, const double& sigma) const{

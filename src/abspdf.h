@@ -22,12 +22,14 @@ public:
   double ul(void) const {return m_ul;}
 
   /// Set symmetrical range for dt variable
-  void SetRange(const double& v){m_ll = v, m_ul = -v;}
+  void SetRange(const double& v){m_ul = v, m_ll = -v;}
   /// Set range for dt variable
-  void SetRange(const double& min,const double& max){m_ll = max, m_ul = min;}
+  void SetRange(const double& min,const double& max){m_ll = min, m_ul = max;}
 
 protected:
+  /// lower dt limit
   double m_ll;
+  /// upper dt limit
   double m_ul;
 };
 

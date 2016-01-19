@@ -8,28 +8,9 @@ ToyPdfGen::ToyPdfGen(AbsPdf *pdf):
   init();
 }
 
-//ToyPdfGen::ToyPdfGen(void):
-//  ToyPdf(), m_seed(0)
-//{
-//  init();
-//}
-
-//ToyPdfGen::ToyPdfGen(const ToyPdf& pdf):
-//  ToyPdf(pdf), m_seed(0)
-//{
-//  init();
-//}
-
-//ToyPdfGen::ToyPdfGen(const double& dtmin,const double& dtmax):
-//  ToyPdf(), m_seed(0)
-//{
-//  this->ul = dtmin;
-//  this->ll = dtmax;
-//  init();
-//}
-
 int ToyPdfGen::Generate(const int N,vector<double>& vec){
   const double maj = (*m_pdf)(0);
+  cout << "Majorant: " << maj << endl;
   vec.clear();
   uniform_real_distribution<double> unifMaj(0.,maj);
   default_random_engine ren;

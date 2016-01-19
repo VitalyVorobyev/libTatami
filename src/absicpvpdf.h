@@ -9,7 +9,7 @@
 
 class AbsICPVPdf : public AbsPdf{
 public:
-  AbsICPVPdf() {}
+  AbsICPVPdf(): m_c(1.), m_s(0.), m_tau(1.520), m_dm(0.505) {}
 
   /// Set coefficient near cos(dt)
   void SetC(const double& v) {m_c = v; return;}

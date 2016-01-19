@@ -2,8 +2,8 @@
 
 int RascPdf::ReadVars(const ICPVEvt& evt){
   m_vars.ReadVars(evt,RdetVar::AscSide);
-  dz       = evt.GetDVar("dz_asc");
-  keeptagl = evt.GetIVar("keeptagl");
+  dz       = evt.DVar("dz_asc");
+  keeptagl = evt.IVar("keeptagl");
   return 0;
 }
 
