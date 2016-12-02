@@ -1,5 +1,5 @@
 /** Copyright 2016 Vitaly Vorobyev
- ** @file abspdf.cpp
+ ** @file icpvvar.cpp
  **
  ** @brief This message displayed in Doxygen Files index
  **
@@ -8,12 +8,5 @@
  **
  **/
 
-#include "../include/abspdf.h"
+#include "../include/icpvvar.h"
 
-namespace libTatami {
-
-AbsPdf::AbsPdf(void) :
-    cnvl(), m_ll(-70), m_ul(70)
-{}
-
-}  // namespace libTatami

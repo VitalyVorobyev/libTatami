@@ -1,30 +1,37 @@
-#include "parmanager.h"
+/** Copyright 2016 Vitaly Vorobyev
+ ** @file parmanager.cpp
+ **
+ ** @brief This message displayed in Doxygen Files index
+ **
+ ** @author Vitaly Vorobyev
+ ** Contact: vit.vorobiev@gmail.com
+ **
+ **/
 
-#include <sstream>
+#include "../include/parmanager.h"
 
-using namespace std;
+using std::stringstream;
+using std::to_string;
 
-string ParManager::WTagFile(const DataClass& dc){
-  const string prefix("/home/vitaly/B0toD0pipi/libTatami/params/");
-  stringstream out;
-  out.str(""); out << prefix << "wtag_svd" << dc.Svd();
-  if(dc.MC()) out << "_mc";
-  out << ".txt";
-  return out.str();
+namespace libTatami {
+
+str ParManager::prefix("/home/vitaly/B0toD0pipi/libTatami/params/");
+
+str ParManager::WTagFile(const DataClass& dc) {
+    str fname = prefix + "wtag_svd" + to_string(dc.Svd());
+    if (dc.MC()) fname += "_mc";
+    return fname + ".txt";
 }
 
-string ParManager::BkgParFile(const DataClass& dc){
-  const string prefix("/home/vitaly/B0toD0pipi/libTatami/params/");
-  return prefix + string("def_bkg.txt");
+str ParManager::BkgParFile(const DataClass& dc) {
+    return prefix + str("def_bkg.txt");
 }
 
-string ParManager::SigParFile(const DataClass& dc){
-  const string prefix("/home/vitaly/B0toD0pipi/libTatami/params/");
-  stringstream out;
-  out.str(""); out << prefix << "sig_";
-  out << (dc.Bp() ? "bp" : "b0") << "_svd" << dc.Svd();
-  if(dc.MC()) out << "_mc";
-  out << ".txt";
-  return out.str();
+str ParManager::SigParFile(const DataClass& dc) {
+    str fname = prefix + "sig_" + (dc.Bp() ? "bp" : "b0") +
+                "_svd" + to_string(dc.Svd());
+    if (dc.MC()) fname += "_mc";
+    return fname + ".txt";
 }
 
+}  // namespace libTatami
