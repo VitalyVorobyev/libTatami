@@ -20,8 +20,15 @@ using std::pow;
 
 namespace libTatami {
 
-ToyPdf::ToyPdf(const ToyPdf& opdf)
-  : ToyPdf(opdf.ResMean(), opdf.ResWidth(), opdf.Fbkg()) {
+ToyPdf::ToyPdf(const double& m, const double& w, const double& fb,
+               const double& ll, const double& ul) :
+  AbsICPVPdf(), m_m(m), m_w(w), m_fbkg(fb) {
+    SetRange(ll, ul);
+    print_params();
+}
+
+ToyPdf::ToyPdf(const ToyPdf& opdf) :
+    ToyPdf(opdf.ResMean(), opdf.ResWidth(), opdf.Fbkg()) {
     this->m_ll = opdf.m_ll;
     this->m_ul = opdf.m_ul;
 }
@@ -77,6 +84,15 @@ double ToyPdf::pdfSig(cdouble& dt, cdouble& wid) {
 double ToyPdf::pdfBkg(cdouble& dt, cdouble& wid) {
     if (wid <= 0) return 0;
     return gaussian(dt, m_m, wid) / norm_gaussian(m_ll, m_ul, m_m, wid);
+}
+
+void ToyPdf::print_params(void) const {
+    cout << "ToyPdf init parameters:" << endl;
+    AbsICPVPdf::print_params();
+    cout << "  mean: " << m_m << endl;
+    cout << "  sigm: " << m_w << endl;
+    cout << "  fbkg: " << m_fbkg << endl;
+    cout << "  range: " << ll() << " " << ul() << endl;
 }
 
 }  // namespace libTatami

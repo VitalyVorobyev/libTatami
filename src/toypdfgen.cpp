@@ -37,7 +37,8 @@ int ToyPdfGen::Generate(const int N, vectd* vec, const bool silent) {
         xi = unifMaj(ren);
         if (xi < (*m_pdf)(dt)) {
           vec->push_back(dt);
-          if (!(++Evtn % 1000)) cout << Evtn << " events" << endl;
+          Evtn++;
+          if (!silent && !(Evtn % 1000)) cout << Evtn << " events" << endl;
         }
     }
     const double Eff = static_cast<double>(Evtn) / tries;
@@ -49,7 +50,7 @@ int ToyPdfGen::Generate(const int N, vectd* vec, const bool silent) {
         cout << "  tries limit: "      << m_maxtries << endl;
         return -1;
     }
-    if (!silent) cout << "Done!. Efficiency " << Eff << endl;
+//    if (!silent) cout << "Done!. Efficiency " << Eff << endl;
     return 0;
 }
 
