@@ -28,28 +28,23 @@ class AbsICPVPdf : public AbsPdf {
     /// \param tau
     /// \param dm
     ///
-    AbsICPVPdf(const double& c, const double& s,
-               const double& tau, const double& dm);
-    ///
-    /// \brief AbsICPVPdf
-    ///
-    AbsICPVPdf(void);
-    ///
-    /// \brief AbsICPVPdf
-    /// \param tau
-    /// \param dm
-    ///
-    AbsICPVPdf(const double& tau, const double& dm);
+    AbsICPVPdf(const double& tau=1.520, const double& dm=0.505,
+               const double& c=0, const double& s=0);
     ///
     /// \brief SetC. Set coefficient near cos(dt)
     /// \param v
     ///
-    void SetC(const double& v) {m_c = v; return;}
+    void SetC(const double& v) {m_c = v;}
     ///
     /// \brief SetS. Set coefficient near sin(dt)
     /// \param v
     ///
-    void SetS(const double& v) {m_s = v; return;}
+    void SetS(const double& v) {m_s = v;}
+    /**
+     * @brief SetTag
+     * @param x
+     */
+    void SetTag(const int x) {m_tag = x;}
     ///
     /// \brief SetTauDm. Set lifetime and mass difference
     /// \param tau
@@ -88,24 +83,32 @@ class AbsICPVPdf : public AbsPdf {
     /// \return
     ///
     double dm(void) const {return m_dm;}
+    ///
+    /// \brief print_params
+    ///
+    void print_params(void) const;
 
  protected:
     ///
-    /// \brief m_c. Coefficient near cos(dt)
-    ///
-    double m_c;
-    ///
-    /// \brief m_s. Coefficient near sin(dt)
-    ///
-    double m_s;
-    ///
-    /// \brief m_tau. Lifetime
+    /// \brief Lifetime
     ///
     double m_tau;
     ///
-    /// \brief m_dm. Mass difference
+    /// \brief Mass difference
     ///
     double m_dm;
+    ///
+    /// \brief Coefficient near cos(dm*dt)
+    ///
+    double m_c;
+    ///
+    /// \brief Coefficient near sin(dm*dt)
+    ///
+    double m_s;
+    /**
+     * @brief m_tag
+     */
+    int m_tag;
 };
 
 }  // namespace libTatami

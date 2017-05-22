@@ -28,8 +28,8 @@ class ToyPdf : public AbsICPVPdf {
     /// \param w
     /// \param fb
     ///
-    ToyPdf(const double& m, const double& w, const double& fb) :
-      AbsICPVPdf(), m_m(m), m_w(w), m_fbkg(fb) {}
+    ToyPdf(const double& m, const double& w, const double& fb,
+           const double& ll=-10, const double& ul=10);
     ///
     /// \brief ToyPdf
     ///
@@ -46,6 +46,13 @@ class ToyPdf : public AbsICPVPdf {
     /// \return
     ///
     double operator() (const ICPVEvt& evt);
+    /**
+     * @brief operator ()
+     * @param dt. Time difference between signal and tagging B0 meson decays
+     * @param tag. B0 tag
+     * @return PDF
+     */
+    double operator() (const double& dt, const int tag);
     ///
     /// \brief operator () Calculate PDF
     /// \param dt
@@ -102,6 +109,10 @@ class ToyPdf : public AbsICPVPdf {
     /// \return
     ///
     double Fbkg(void) const {return m_fbkg;}
+    ///
+    /// \brief print_params
+    ///
+    void print_params(void) const;
 
  private:
     ///

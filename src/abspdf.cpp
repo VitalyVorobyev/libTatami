@@ -12,8 +12,6 @@
 
 namespace libTatami {
 
-AbsPdf::AbsPdf(void) :
-    cnvl(), m_ll(-70), m_ul(70)
-{}
+AbsPdf::AbsPdf(void) : cnvl(), m_ll(-70), m_ul(70) {}
 
 }  // namespace libTatami

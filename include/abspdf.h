@@ -41,12 +41,12 @@ class AbsPdf : public cnvl {
     /// \brief ll. Lower limit of dt vatiable
     /// \return
     ///
-    double ll (void) const {return m_ll;}
+    double ll(void) const {return m_ll;}
     ///
     /// \brief ul. Upper limit of dt vatiable
     /// \return
     ///
-    double ul (void) const {return m_ul;}
+    double ul(void) const {return m_ul;}
     ///
     /// \brief SetRange. Set symmetrical range for dt variable
     /// \param v

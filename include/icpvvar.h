@@ -18,8 +18,6 @@
 
 namespace libTatami {
 
-typedef std::string str;
-
 ///
 /// \brief The ICPVVar class
 ///
@@ -30,7 +28,7 @@ template <class T> class ICPVVar {
     /// \param v
     /// \param n
     ///
-    ICPVVar(const T& v, const str& n): val(v), name(n) {}
+    ICPVVar(const T& v, const std::string& n): val(v), name(n) {}
     ///
     /// \brief SetVal
     /// \param x
@@ -45,7 +43,7 @@ template <class T> class ICPVVar {
     /// \brief Name
     /// \return
     ///
-    str Name(void) const {return name;}
+    std::string Name(void) const {return name;}
     ///
     /// \brief operator =
     /// \param ovar
@@ -63,7 +61,7 @@ template <class T> class ICPVVar {
     /// \return
     ///
     static int FindIndex(const std::vector<ICPVVar<auto> >& v,
-                         const str& name) {
+                         const std::string& name) {
         for (unsigned i = 0; i < v.size(); i++) {
             if (name == v[i].Name()) return i;
         }
@@ -78,7 +76,7 @@ template <class T> class ICPVVar {
     ///
     /// \brief name
     ///
-    str name;
+    std::string name;
 };
 
 ///

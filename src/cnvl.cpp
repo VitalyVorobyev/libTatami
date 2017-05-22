@@ -25,15 +25,15 @@ using std::log;
 
 namespace libTatami {
 
-cdouble cnvl::inv_sqrt2 =
+const double cnvl::inv_sqrt2 =
         0.707106781186547461715008466853760182857513427734375;
-cdouble cnvl::inv_sqrt_pi =
+const double cnvl::inv_sqrt_pi =
         0.56418958354775627928034964497783221304416656494140625;
-cdouble cnvl::sqrt_pi =
+const double cnvl::sqrt_pi =
         1.772453850905515881919427556567825376987457275390625;
-cdouble cnvl::inv_sqrt_2pi =
+const double cnvl::inv_sqrt_2pi =
         0.398942280401432702863218082711682654917240142822265625;
-cdouble cnvl::sqrt2 =
+const double cnvl::sqrt2 =
         1.4142135623730951454746218587388284504413604736328125;
 
 double cnvl::xXi_conv_gauss_by_int(nXi_t p_func,
@@ -42,14 +42,14 @@ double cnvl::xXi_conv_gauss_by_int(nXi_t p_func,
     double area = 0.0;
     if (sigma == 0.0) return (*p_func)(t, xd);
     /* integral (-20sigma -- +20 sigma)*/
-    cdouble t_ini = -20.0 * sigma + mu;
-    cdouble t_end = +20.0 * sigma + mu;
+    const double t_ini = -20.0 * sigma + mu;
+    const double t_end = +20.0 * sigma + mu;
     const int ndiv = 400;
-    cdouble t_del = (t_end - t_ini) / ndiv;
+    const double t_del = (t_end - t_ini) / ndiv;
 
     for (int i = 0; i < ndiv; ++i) {
         double t_run = t_ini + t_del * i;
-        cdouble err = gaussian(t_run, t-mu, sigma);
+        const double err = gaussian(t_run, t-mu, sigma);
         area += err * (*p_func)(t_run, xd);
     }
     area -= 0.5 * gaussian(t_ini, t-mu, sigma) * (*p_func)(t_ini, xd);
@@ -80,24 +80,24 @@ double cnvl::imwerf(const double& re, const double& im) const {
 
 double cnvl::Ep(const double& t, const double& tau) const {
     if (t < 0.) return 0.;
-    cdouble inv_atau = 1. / fabs(tau);
+    const double inv_atau = 1. / fabs(tau);
     return inv_atau * exp(-fabs(t) * inv_atau);
 }
 
 double cnvl::En(const double& t, const double& tau) const {
     if (t >= 0.) return 0.;
-    cdouble inv_atau = 1. / fabs(tau);
+    const double inv_atau = 1. / fabs(tau);
     return inv_atau*exp(-fabs(t) * inv_atau);
 }
 
 double cnvl::Ef(const double& t, const double& tau) const {
-    cdouble inv_atau = 1. / fabs(tau);
+    const double inv_atau = 1. / fabs(tau);
     return 0.5 * inv_atau * exp(-fabs(t) * inv_atau);
 }
 
 double cnvl::Enp(const double& t, const double& tau_n,
                  const double& tau_p) const {
-    cdouble norm = 1. / (fabs(tau_n) + fabs(tau_p));
+    const double norm = 1. / (fabs(tau_n) + fabs(tau_p));
     double inv_atau = (t >= 0) ? 1. / fabs(tau_p) : 1. / fabs(tau_n);
     return norm * exp(-fabs(t) * inv_atau);
 }
@@ -172,16 +172,16 @@ double cnvl::Af(const double& t, const double& tau, const double& dm) const {
 
 double cnvl::norm_nEp(const double& _ll, const double& _ul,
                       const double& o) const {
-    cdouble nul = (_ul - o >= 0.0) ? (_ul - o) : 0.0;
-    cdouble nll = (_ll - o >= 0.0) ? (_ll - o) : 0.0;
+    const double nul = (_ul - o >= 0.0) ? (_ul - o) : 0.0;
+    const double nll = (_ll - o >= 0.0) ? (_ll - o) : 0.0;
     if (nul == nll) return 0;
     return exp(-nll) - exp(-nul);
 }
 
 double cnvl::norm_nEn(const double& _ll, const double& _ul,
                       const double& o) const {
-    cdouble nul = (_ul - o < 0.0) ? (_ul - o) : 0.0;
-    cdouble nll = (_ll - o < 0.0) ? (_ll - o) : 0.0;
+    const double nul = (_ul - o < 0.0) ? (_ul - o) : 0.0;
+    const double nll = (_ll - o < 0.0) ? (_ll - o) : 0.0;
     if (nul == nll) return 0;
     return exp(nul) - exp(nll);
 }
@@ -193,28 +193,28 @@ double cnvl::norm_nEf(const double& _ll, const double& _ul,
 
 double cnvl::norm_Ep(const double& _ll, const double& _ul,
                      const double& tau, const double& o) const {
-    cdouble inv_atau = 1. / fabs(tau);
-    cdouble nll = _ll * inv_atau;
-    cdouble nul = _ul * inv_atau;
-    cdouble no  = o * inv_atau;
+    const double inv_atau = 1. / fabs(tau);
+    const double nll = _ll * inv_atau;
+    const double nul = _ul * inv_atau;
+    const double no  = o * inv_atau;
     return norm_nEp(nll, nul, no);
 }
 
 double cnvl::norm_En(const double& _ll, const double& _ul,
                      const double& tau, const double& o) const {
-    cdouble inv_atau = 1. / fabs(tau);
-    cdouble nll = _ll * inv_atau;
-    cdouble nul = _ul * inv_atau;
-    cdouble no  = o * inv_atau;
+    const double inv_atau = 1. / fabs(tau);
+    const double nll = _ll * inv_atau;
+    const double nul = _ul * inv_atau;
+    const double no  = o * inv_atau;
     return norm_nEn(nll, nul, no);
 }
 
 double cnvl::norm_Ef(const double& _ll, const double& _ul,
                      const double& tau, const double& o) const {
-    cdouble inv_atau = 1. / fabs(tau);
-    cdouble nll = _ll * inv_atau;
-    cdouble nul = _ul * inv_atau;
-    cdouble no  = o * inv_atau;
+    const double inv_atau = 1. / fabs(tau);
+    const double nll = _ll * inv_atau;
+    const double nul = _ul * inv_atau;
+    const double no  = o * inv_atau;
     return norm_nEf(nll, nul, no);
 }
 
@@ -232,8 +232,8 @@ double cnvl::norm_Ap(const double& _ll, const double& _ul, const double& tau,
 
 double cnvl::norm_Ax_sup(const double& x, const double& tau,
                          const double& dm) const {
-    cdouble dmt   = dm * x;
-    cdouble dmtau = dm * tau;
+    const double dmt   = dm * x;
+    const double dmtau = dm * tau;
     double f = -sin(dmt) - dmtau * cos(dmt);
     f *= tau * exp(-x / tau) / (1 + dmtau * dmtau);
     return f;
@@ -265,8 +265,8 @@ double cnvl::norm_Mn(const double& _ll, const double& _ul, const double& tau,
 
 double cnvl::norm_Mx_sup(const double& x, const double& tau,
                          const double& dm) const {
-    cdouble dmt   = dm * x;
-    cdouble dmtau = dm * tau;
+    const double dmt   = dm * x;
+    const double dmtau = dm * tau;
     double f = -cos(dmt) - dmtau * sin(dmt);
     f *= tau  *exp(-x / tau) / (1 + dmtau * dmtau);
     return f;
@@ -286,54 +286,54 @@ double cnvl::norm_An(const double& _ll, const double& _ul, const double& tau,
 
 double cnvl::nEp_conv_gauss(const double& t, const double& m,
                             const double& s) const {
-    static cdouble Tc = DBL_MAX_10_EXP * log(10.0);
+    static const double Tc = DBL_MAX_10_EXP * log(10.0);
     if (s == 0.0) return Ep(t - m, 1.0);
     double inv_s = 1.0 / fabs(s);
     double dt = -t + m;
     double ex = 0.5 * s * s + dt;
     if (ex < Tc) return 0.5 * exp(ex) * erfc(inv_sqrt2 * inv_s * (s * s + dt));
-    cdouble gf = exp(-0.5 * dt * dt * inv_s * inv_s);
-    cdouble x  = inv_sqrt2*(s + dt * inv_s);
+    const double gf = exp(-0.5 * dt * dt * inv_s * inv_s);
+    const double x  = inv_sqrt2*(s + dt * inv_s);
     return 0.5 * approx_exp2erfc(x) * gf;
 }
 
 double cnvl::nEn_conv_gauss(const double& t, const double& m,
                             const double& s) const {
     if (s == 0.0) return En(t - m, 1.0);
-    static cdouble Tc = DBL_MAX_10_EXP * log(10.0);
+    static const double Tc = DBL_MAX_10_EXP * log(10.0);
     double inv_s = 1.0 / fabs(s);
     double dt = t - m;
     double ex = 0.5 * s * s + dt;
     if (ex < Tc) return 0.5 * exp(ex) * erfc(inv_sqrt2 * inv_s * (s * s + dt));
-    cdouble gf = exp(-0.5 * dt * dt * inv_s * inv_s);
-    cdouble x  = inv_sqrt2 * (s + dt * inv_s);
+    const double gf = exp(-0.5 * dt * dt * inv_s * inv_s);
+    const double x  = inv_sqrt2 * (s + dt * inv_s);
     return 0.5 * approx_exp2erfc(x) * gf;
 }
 
 double cnvl::Ep_conv_gauss(const double& t, const double& tau,
                            const double& m, const double& s) const {
-    cdouble inv_atau = 1. / fabs(tau);
-    cdouble nt = t * inv_atau;
-    cdouble nm = m * inv_atau;
-    cdouble ns = fabs(s) * inv_atau;
+    const double inv_atau = 1. / fabs(tau);
+    const double nt = t * inv_atau;
+    const double nm = m * inv_atau;
+    const double ns = fabs(s) * inv_atau;
     return inv_atau * nEp_conv_gauss(nt, nm, ns);
 }
 
 double cnvl::En_conv_gauss(const double& t, const double& tau,
                            const double& m, const double& s) const {
-    cdouble inv_atau = 1. / fabs(tau);
-    cdouble nt = t * inv_atau;
-    cdouble nm = m * inv_atau;
-    cdouble ns = fabs(s) * inv_atau;
+    const double inv_atau = 1. / fabs(tau);
+    const double nt = t * inv_atau;
+    const double nm = m * inv_atau;
+    const double ns = fabs(s) * inv_atau;
     return inv_atau * nEn_conv_gauss(nt, nm, ns);
 }
 
 double cnvl::Ef_conv_gauss(const double& t, const double& tau,
                            const double& m, const double& s) const {
-    cdouble inv_atau = 1. / fabs(tau);
-    cdouble nt = t * inv_atau;
-    cdouble nm = m * inv_atau;
-    cdouble ns = fabs(s) * inv_atau;
+    const double inv_atau = 1. / fabs(tau);
+    const double nt = t * inv_atau;
+    const double nm = m * inv_atau;
+    const double ns = fabs(s) * inv_atau;
     double f = nEn_conv_gauss(nt, nm, ns) + nEp_conv_gauss(nt, nm, ns);
     return f * 0.5 * inv_atau;
 }
@@ -341,15 +341,15 @@ double cnvl::Ef_conv_gauss(const double& t, const double& tau,
 double cnvl::Enp_conv_gauss(const double& t, const double& tau_n,
                             const double& tau_p, const double& m,
                             const double& s) const {
-    cdouble inv_atau_n = 1. / fabs(tau_n);
-    cdouble nt_n = t * inv_atau_n;
-    cdouble nm_n = m * inv_atau_n;
-    cdouble ns_n = fabs(s) * inv_atau_n;
+    const double inv_atau_n = 1. / fabs(tau_n);
+    const double nt_n = t * inv_atau_n;
+    const double nm_n = m * inv_atau_n;
+    const double ns_n = fabs(s) * inv_atau_n;
 
-    cdouble inv_atau_p = 1. / fabs(tau_p);
-    cdouble nt_p = t * inv_atau_p;
-    cdouble nm_p = m * inv_atau_p;
-    cdouble ns_p = fabs(s) * inv_atau_p;
+    const double inv_atau_p = 1. / fabs(tau_p);
+    const double nt_p = t * inv_atau_p;
+    const double nm_p = m * inv_atau_p;
+    const double ns_p = fabs(s) * inv_atau_p;
 
     double f = nEn_conv_gauss(nt_n, nm_n, ns_n) +
                nEp_conv_gauss(nt_p, nm_p, ns_p);
@@ -357,7 +357,7 @@ double cnvl::Enp_conv_gauss(const double& t, const double& tau_n,
 }
 
 double cnvl::approx_exp2erfc(const double& x) const {
-    cdouble inv_x = 1. / x;
+    const double inv_x = 1. / x;
     return inv_sqrt_pi * (inv_x - 0.5 * inv_x * inv_x * inv_x);
 }
 
@@ -365,9 +365,9 @@ double cnvl::nMp_conv_gauss(const double& t, const double& xd,
                             const double& m, const double& s) const {
     if (!finite(s)) return 0.0;
     if (s == 0.0)   return Mp(t - m, 1.0, xd);
-    cdouble inv_s = 1. / fabs(s);
+    const double inv_s = 1. / fabs(s);
     if (!finite(inv_s)) return Mp(t - m, 1.0, xd);
-    cdouble inv_s2 = 1. / (s * s);
+    const double inv_s2 = 1. / (s * s);
     double f = _IM(t, m, s, 0.5 * inv_s2, 1 - (t - m) * inv_s2, xd);
     if (!finite(f)) return xXi_conv_gauss_by_int(nMp, t, xd, m, s);
     return f;
@@ -377,9 +377,9 @@ double cnvl::nMn_conv_gauss(const double& t, const double& xd,
                             const double& m, const double& s) const {
     if (!finite(s)) return 0.0;
     if (s == 0.0)   return Mn(t - m, 1., xd);
-    cdouble inv_s = 1. / fabs(s);
+    const double inv_s = 1. / fabs(s);
     if (!finite(inv_s)) return Mn(t - m, 1., xd);
-    cdouble inv_s2 = 1. / (s * s);
+    const double inv_s2 = 1. / (s * s);
     double f = _IM(t, m, s, 0.5 * inv_s2, 1 + (t - m) * inv_s2, xd);
     if (!finite(f)) return xXi_conv_gauss_by_int(nMn, t, xd, m, s);
     return f;
@@ -389,9 +389,9 @@ double cnvl::nAp_conv_gauss(const double& t, const double& xd,
                             const double& m, const double& s) const {
     if (!finite(s)) return 0.;
     if (s == 0.)    return Ap(t - m, 1., xd);
-    cdouble inv_s = 1. / fabs(s);
+    const double inv_s = 1. / fabs(s);
     if (!finite(inv_s)) return Ap(t - m, 1., xd);
-    cdouble inv_s2 = 1. / s / s;
+    const double inv_s2 = 1. / s / s;
     double f = _IA(t, m, s, 0.5 * inv_s2, 1 - (t - m) * inv_s2, xd);
     if (!finite(f)) return xXi_conv_gauss_by_int(nAp, t, xd, m, s);
     return f;
@@ -401,9 +401,9 @@ double cnvl::nAn_conv_gauss(const double& t, const double& xd,
                             const double& m, const double& s) const {
     if (!finite(s)) return 0.0;
     if (s == 0.0)   return An(t - m, 1., xd);
-    cdouble inv_s = 1. / fabs(s);
+    const double inv_s = 1. / fabs(s);
     if (!finite(inv_s)) return An(t - m, 1.0, xd);
-    cdouble inv_s2 = 1. / s / s;
+    const double inv_s2 = 1. / s / s;
     double f = -1. * _IA(t, m, s, 0.5 * inv_s2, 1 + (t - m) * inv_s2, xd);
     if (!finite(f)) return xXi_conv_gauss_by_int(nAn, t, xd, m, s);
     return f;
@@ -412,7 +412,7 @@ double cnvl::nAn_conv_gauss(const double& t, const double& xd,
 double cnvl::Mp_conv_gauss(const double& t, const double& tau,
                            const double& dm, const double& m,
                            const double& s) const {
-    cdouble inv_atau = 1. / fabs(tau);
+    const double inv_atau = 1. / fabs(tau);
     return nMp_conv_gauss(t * inv_atau, dm * fabs(tau),
                           m * inv_atau, fabs(s) * inv_atau);
 }
@@ -420,7 +420,7 @@ double cnvl::Mp_conv_gauss(const double& t, const double& tau,
 double cnvl::Mn_conv_gauss(const double& t, const double& tau,
                            const double& dm, const double& m,
                            const double& s) const {
-    cdouble inv_atau = 1. / fabs(tau);
+    const double inv_atau = 1. / fabs(tau);
     return nMn_conv_gauss(t * inv_atau, dm * fabs(tau),
                           m * inv_atau, fabs(s) * inv_atau);
 }
@@ -428,18 +428,18 @@ double cnvl::Mn_conv_gauss(const double& t, const double& tau,
 double cnvl::Mf_conv_gauss(const double& t, const double& tau,
                            const double& dm, const double& m,
                            const double& s) const {
-    cdouble inv_atau = 1. / fabs(tau);
-    cdouble nt = t * inv_atau;
-    cdouble nm = m * inv_atau;
-    cdouble ns = fabs(s) * inv_atau;
-    cdouble xd = dm * fabs(tau);
+    const double inv_atau = 1. / fabs(tau);
+    const double nt = t * inv_atau;
+    const double nm = m * inv_atau;
+    const double ns = fabs(s) * inv_atau;
+    const double xd = dm * fabs(tau);
     return nMn_conv_gauss(nt, xd, nm, ns) + nMp_conv_gauss(nt, xd, nm, ns);
 }
 
 double cnvl::Ap_conv_gauss(const double& t, const double& tau,
                            const double& dm, const double& m,
                            const double& s) const {
-    cdouble inv_atau = 1. / fabs(tau);
+    const double inv_atau = 1. / fabs(tau);
     return nAp_conv_gauss(t * inv_atau, dm * fabs(tau),
                           m * inv_atau, fabs(s) * inv_atau);
 }
@@ -447,7 +447,7 @@ double cnvl::Ap_conv_gauss(const double& t, const double& tau,
 double cnvl::An_conv_gauss(const double& t, const double& tau,
                            const double& dm, const double& m,
                            const double& s) const {
-    cdouble inv_atau = 1. / fabs(tau);
+    const double inv_atau = 1. / fabs(tau);
     return nAn_conv_gauss(t * inv_atau, dm * fabs(tau),
                           m * inv_atau, fabs(s) * inv_atau);
 }
@@ -455,11 +455,11 @@ double cnvl::An_conv_gauss(const double& t, const double& tau,
 double cnvl::Af_conv_gauss(const double& t, const double& tau,
                            const double& dm, const double& m,
                            const double& s) const {
-    cdouble inv_atau = 1. / fabs(tau);
-    cdouble nt = t * inv_atau;
-    cdouble nm = m * inv_atau;
-    cdouble ns = fabs(s) * inv_atau;
-    cdouble xd = dm * fabs(tau);
+    const double inv_atau = 1. / fabs(tau);
+    const double nt = t * inv_atau;
+    const double nm = m * inv_atau;
+    const double ns = fabs(s) * inv_atau;
+    const double xd = dm * fabs(tau);
     return nAn_conv_gauss(nt, xd, nm, ns) + nAp_conv_gauss(nt, xd, nm, ns);
 }
 
@@ -467,21 +467,21 @@ double cnvl::_IM(const double& x, const double& m, const double& s,
                  const double& beta, const double& gamma,
                  const double& b) const {
 #if defined(USE_CERNLIB_WERF)&&(IX_TREAT_NEGATIVE_GAMMA == 0)
-    cdouble inv_2sqrtbeta = 0.5 / sqrt(beta);
+    const double inv_2sqrtbeta = 0.5 / sqrt(beta);
     double f = rewerf(inv_2sqrtbeta * b, inv_2sqrtbeta * gamma);
     returnf * gaussian(x, m, s) * sqrt_pi * inv_2sqrtbeta;
 #else /* USE_CERNLIB_WERF */
-    cdouble inv_2sqrtbeta = 0.5 / sqrt(beta);
+    const double inv_2sqrtbeta = 0.5 / sqrt(beta);
     double f = rewerf(inv_2sqrtbeta * b, inv_2sqrtbeta * fabs(gamma));
     f *= gaussian(x, m, s) * sqrt_pi * inv_2sqrtbeta;
     if (/* gamma */ inv_2sqrtbeta * gamma >=0) {
         return f;
     }
     f *= -1.0;
-    cdouble inv_beta = 1. / beta;
-    cdouble dx = x - m;
-    cdouble inv_s = 1. / fabs(s);
-    cdouble rex = 0.25 * (gamma * gamma - b * b) * inv_beta -
+    const double inv_beta = 1. / beta;
+    const double dx = x - m;
+    const double inv_s = 1. / fabs(s);
+    const double rex = 0.25 * (gamma * gamma - b * b) * inv_beta -
                   0.5 * dx * dx * inv_s * inv_s;
     double imx = 0.5 * fabs(gamma) * b * inv_beta;
     return f + inv_sqrt_2pi * inv_s * sqrt(M_PI * inv_beta) * recexp(rex, imx);
@@ -492,22 +492,22 @@ double cnvl::_IA(const double& x, const double& m, const double& s,
                  const double& beta, const double& gamma,
                  const double& b) const {
 #if defined(USE_CERNLIB_WERF)&&(IX_TREAT_NEGATIVE_GAMMA == 0)
-    cdouble inv_2sqrtbeta = 0.5 / sqrt(beta);
+    const double inv_2sqrtbeta = 0.5 / sqrt(beta);
     double f = imwerf(inv_2sqrtbeta * b, inv_2sqrtbeta * gamma);
     return f * gaussian(x, m, s) * sqrt_pi * inv_2sqrtbeta;
 #else /* USE_CERNLIB_WERF */
-    cdouble inv_2sqrtbeta = 0.5 / sqrt(beta);
+    const double inv_2sqrtbeta = 0.5 / sqrt(beta);
     double f = imwerf(inv_2sqrtbeta * b, inv_2sqrtbeta * fabs(gamma));
     f *= gaussian(x, m, s) * sqrt_pi * inv_2sqrtbeta;
     if (/*  gamma */inv_2sqrtbeta * gamma  >= 0) {
         return f;
     }
-    cdouble inv_beta = 1. / beta;
-    cdouble dx = x - m;
-    cdouble inv_s = 1. / fabs(s);
-    cdouble rex = 0.25 * (gamma * gamma - b * b) * inv_beta -
+    const double inv_beta = 1. / beta;
+    const double dx = x - m;
+    const double inv_s = 1. / fabs(s);
+    const double rex = 0.25 * (gamma * gamma - b * b) * inv_beta -
             0.5 * dx * dx * inv_s * inv_s;
-    cdouble imx = 0.5 * fabs(gamma) * b * inv_beta;
+    const double imx = 0.5 * fabs(gamma) * b * inv_beta;
     return f + inv_sqrt_2pi * inv_s * sqrt(M_PI * inv_beta) * imcexp(rex, imx);
 #endif  /* USE_CERNLIB_WERF */
 }
@@ -518,7 +518,7 @@ double cnvl::gaussian(const double& x, const double& m,
     if (s == 0.)    return DiracDelta(x - m);
     double inv_s = 1. / fabs(s);
     if (!finite(inv_s)) return DiracDelta(x - m);
-    cdouble dx = x - m;
+    const double dx = x - m;
     return inv_sqrt_2pi * inv_s * exp(-0.5 * dx * dx * inv_s * inv_s);
 }
 
@@ -550,11 +550,11 @@ double cnvl::DiracDelta(const double& x) const {
 double cnvl::xEn_conv_gauss(const double& t, const double& tau,
                             const double& m, const double& s) const {
     if (s == 0.) return xEn(t - m, tau);
-    cdouble inv_atau = 1. / fabs(tau);
-    cdouble nt = t * inv_atau;
-    cdouble nm = m * inv_atau;
-    cdouble ns = fabs(s) * inv_atau;
-    cdouble ns2 = ns * ns;
+    const double inv_atau = 1. / fabs(tau);
+    const double nt = t * inv_atau;
+    const double nm = m * inv_atau;
+    const double ns = fabs(s) * inv_atau;
+    const double ns2 = ns * ns;
 
     return (-ns2 - nt + nm) * En_conv_gauss(t, tau, m, s) +
             ns2 * gaussian(t, m, s);
@@ -563,11 +563,11 @@ double cnvl::xEn_conv_gauss(const double& t, const double& tau,
 double cnvl::xEf_conv_gauss(const double& t, const double& tau,
                             const double& m, const double& s) const {
     if (s == 0.) return xEn(t - m, tau);
-    cdouble inv_atau = 1. / fabs(tau);
-    cdouble nt = t * inv_atau;
-    cdouble nm = m * inv_atau;
-    cdouble ns = fabs(s) * inv_atau;
-    cdouble ns2 = ns * ns;
+    const double inv_atau = 1. / fabs(tau);
+    const double nt = t * inv_atau;
+    const double nm = m * inv_atau;
+    const double ns = fabs(s) * inv_atau;
+    const double ns2 = ns * ns;
 
     return 0.5 * (-ns2 + nt-nm) * Ep_conv_gauss(t, tau, m, s) +
            0.5 * (-ns2 - nt+nm) * En_conv_gauss(t, tau, m, s) +
@@ -577,22 +577,22 @@ double cnvl::xEf_conv_gauss(const double& t, const double& tau,
 double cnvl::xEp_conv_gauss(const double& t, const double& tau,
                             const double& m, const double& s) const {
     if (s == 0.) return xEp(t - m, tau);
-    cdouble inv_atau = 1. / fabs(tau);
-    cdouble nt = t * inv_atau;
-    cdouble nm = m * inv_atau;
-    cdouble ns = fabs(s) * inv_atau;
-    cdouble ns2 = ns * ns;
+    const double inv_atau = 1. / fabs(tau);
+    const double nt = t * inv_atau;
+    const double nm = m * inv_atau;
+    const double ns = fabs(s) * inv_atau;
+    const double ns2 = ns * ns;
 
     return (-ns2 + nt - nm) * Ep_conv_gauss(t, tau, m, s) +
             ns2 * gaussian(t, m, s);
 }
 
 double cnvl::norm_neg_sup(const double& m, const double& s) const {
-    cdouble Tc = DBL_MAX_10_EXP*log(10.0);
+    const double Tc = DBL_MAX_10_EXP*log(10.0);
 
-    cdouble as = fabs(s);
-    cdouble ex = 0.5 * as * as - m;
-    cdouble x = inv_sqrt2 * (as - m / as);
+    const double as = fabs(s);
+    const double ex = 0.5 * as * as - m;
+    const double x = inv_sqrt2 * (as - m / as);
     if (ex < Tc) {
         double f = exp(ex);
         double g = erfc(x);
@@ -608,9 +608,9 @@ double cnvl::norm_neg_sup(const double& m, const double& s) const {
 double cnvl::norm_nEp_conv_gauss_sub(const double& _ll, const double& _ul,
                                      const double& m, const double& s,
                                      const double& o) const {
-    cdouble f1 = erfc(inv_sqrt2 * (-_ll + o + m) / s) -
+    const double f1 = erfc(inv_sqrt2 * (-_ll + o + m) / s) -
                  norm_neg_sup(_ll - o - m, s);
-    cdouble f2 = erfc(inv_sqrt2 *  (_ul - o - m) / s) +
+    const double f2 = erfc(inv_sqrt2 *  (_ul - o - m) / s) +
                  norm_neg_sup(_ul - o - m, s);
     return 0.5 * (f1 + f2);
 }
@@ -618,9 +618,9 @@ double cnvl::norm_nEp_conv_gauss_sub(const double& _ll, const double& _ul,
 double cnvl::norm_nEn_conv_gauss_sub(const double& _ll, const double& _ul,
                                      const double& m, const double& s,
                                      const double& o) const {
-    cdouble f1 = erfc(inv_sqrt2 * (-_ll + o + m) / s) +
+    const double f1 = erfc(inv_sqrt2 * (-_ll + o + m) / s) +
             norm_neg_sup(-_ll + o + m, s);
-    cdouble f2 = erfc(inv_sqrt2 *  (_ul - o - m) / s)
+    const double f2 = erfc(inv_sqrt2 *  (_ul - o - m) / s)
             - norm_neg_sup(-_ul + o + m, s);
     return 0.5 * (f1 + f2);
 }
@@ -640,7 +640,7 @@ double cnvl::norm_nEn_conv_gauss(const double& _ll, const double& _ul,
 double cnvl::norm_Ep_conv_gauss(const double& _ll, const double& _ul,
                                 const double& tau, const double& m,
                                 const double& s, const double& o) const {
-    cdouble inv_atau = 1. / fabs(tau);
+    const double inv_atau = 1. / fabs(tau);
     return 1. - norm_nEp_conv_gauss_sub(_ll * inv_atau, _ul * inv_atau,
                                         m * inv_atau, s * inv_atau,
                                         o * inv_atau);
@@ -649,7 +649,7 @@ double cnvl::norm_Ep_conv_gauss(const double& _ll, const double& _ul,
 double cnvl::norm_En_conv_gauss(const double& _ll, const double& _ul,
                                 const double& tau, const double& m,
                                 const double& s, const double& o) const {
-    cdouble inv_atau = 1. / fabs(tau);
+    const double inv_atau = 1. / fabs(tau);
     return 1. - norm_nEn_conv_gauss_sub(_ll * inv_atau, _ul * inv_atau,
                                         m * inv_atau, s * inv_atau,
                                         o * inv_atau);
@@ -665,12 +665,12 @@ double cnvl::norm_nEf_conv_gauss(const double& _ll, const double& _ul,
 double cnvl::norm_Ef_conv_gauss(const double& _ll, const double& _ul,
                                 const double& tau, const double& m,
                                 const double& s, const double& o) const {
-    cdouble inv_atau = 1. / fabs(tau);
-    cdouble nll = _ll * inv_atau;
-    cdouble nul = _ul * inv_atau;
-    cdouble nm  = m * inv_atau;
-    cdouble ns  = s * inv_atau;
-    cdouble no  = (o == 0.) ? 0. : o * inv_atau;
+    const double inv_atau = 1. / fabs(tau);
+    const double nll = _ll * inv_atau;
+    const double nul = _ul * inv_atau;
+    const double nm  = m * inv_atau;
+    const double ns  = s * inv_atau;
+    const double no  = (o == 0.) ? 0. : o * inv_atau;
     return 1. - 0.5 * (norm_nEp_conv_gauss_sub(nll, nul, nm, ns, no) +
                        norm_nEn_conv_gauss_sub(nll, nul, nm, ns, no));
 }
@@ -679,22 +679,22 @@ double cnvl::norm_Enp_conv_gauss(const double& _ll, const double& _ul,
                                  const double& tau_n, const double& tau_p,
                                  const double& m, const double& s,
                                  const double& o) const {
-    cdouble inv_atau_n = 1. / fabs(tau_n);
-    cdouble nll_n = _ll * inv_atau_n;
-    cdouble nul_n = _ul * inv_atau_n;
-    cdouble nm_n  = m * inv_atau_n;
-    cdouble ns_n  = s * inv_atau_n;
-    cdouble no_n  = o * inv_atau_n;
+    const double inv_atau_n = 1. / fabs(tau_n);
+    const double nll_n = _ll * inv_atau_n;
+    const double nul_n = _ul * inv_atau_n;
+    const double nm_n  = m * inv_atau_n;
+    const double ns_n  = s * inv_atau_n;
+    const double no_n  = o * inv_atau_n;
 
-    cdouble inv_atau_p = 1. / fabs(tau_p);
-    cdouble nll_p = _ll * inv_atau_p;
-    cdouble nul_p = _ul * inv_atau_p;
-    cdouble nm_p  = m * inv_atau_p;
-    cdouble ns_p  = s * inv_atau_p;
-    cdouble no_p  = o * inv_atau_p;
+    const double inv_atau_p = 1. / fabs(tau_p);
+    const double nll_p = _ll * inv_atau_p;
+    const double nul_p = _ul * inv_atau_p;
+    const double nm_p  = m * inv_atau_p;
+    const double ns_p  = s * inv_atau_p;
+    const double no_p  = o * inv_atau_p;
 
-    cdouble fn = fabs(tau_n) / (fabs(tau_n) + fabs(tau_p));
-    cdouble fp = fabs(tau_p) / (fabs(tau_n) + fabs(tau_p));
+    const double fn = fabs(tau_n) / (fabs(tau_n) + fabs(tau_p));
+    const double fp = fabs(tau_p) / (fabs(tau_n) + fabs(tau_p));
     double f = fn * norm_nEn_conv_gauss_sub(nll_n, nul_n, nm_n, ns_n, no_n) +
                fp * norm_nEp_conv_gauss_sub(nll_p, nul_p, nm_p, ns_p, no_p);
     return 1. - f;
@@ -702,19 +702,19 @@ double cnvl::norm_Enp_conv_gauss(const double& _ll, const double& _ul,
 
 double cnvl::norm_nag_sup(const double& m, const double& s,
                           const double& xd) const {
-    cdouble as = fabs(s);
-    cdouble inv_as = 1. / as;
-    cdouble minvassq = 0.5 * m * m * inv_as * inv_as;
+    const double as = fabs(s);
+    const double inv_as = 1. / as;
+    const double minvassq = 0.5 * m * m * inv_as * inv_as;
 
-    cdouble rex = inv_sqrt2 * xd * as;
-    cdouble imx = inv_sqrt2 * (as + m * inv_as);
+    const double rex = inv_sqrt2 * xd * as;
+    const double imx = inv_sqrt2 * (as + m * inv_as);
 
     if (imx >= 0) {
         return -(imwerf(rex, imx) + xd * rewerf(rex, imx)) * exp(-minvassq);
     }
 
-    cdouble rexx = -rex * rex + imx * imx - minvassq;
-    cdouble imxx = -2.0 * rex * imx;
+    const double rexx = -rex * rex + imx * imx - minvassq;
+    const double imxx = -2.0 * rex * imx;
 
     return exp(-minvassq) * (imwerf(-rex, -imx) + xd * rewerf(-rex, -imx)) -
             2. * (imcexp(rexx, imxx) + xd * recexp(rexx, imxx));
@@ -723,8 +723,8 @@ double cnvl::norm_nag_sup(const double& m, const double& s,
 double cnvl::int_polyexp2(const double& _ll, const double& _ul,
                           const double& alpha, const double& beta,
                           const double& gamma, const double& a) const {
-    cdouble inv_2a = 0.5 / a;
-    cdouble sqrt_a = sqrt(a);
+    const double inv_2a = 0.5 / a;
+    const double sqrt_a = sqrt(a);
 
     return -inv_2a * (alpha * _ul + beta) * exp(-a * _ul * _ul) +
             inv_2a * (alpha * _ll + beta) * exp(-a * _ll * _ll) +
@@ -735,11 +735,11 @@ double cnvl::int_polyexp2(const double& _ll, const double& _ul,
 double cnvl::int_polyexp_erfc(const double& _ll, const double& _ul,
                               const double& alpha, const double& beta,
                               const double& gamma, const double& a) const {
-    cdouble inv_a = 1. / a;
+    const double inv_a = 1. / a;
     double f = 0.0;
 
-    cdouble a1 = -2. * alpha * inv_a + beta;
-    cdouble a0 =  2. * alpha * alpha * inv_a * inv_a +
+    const double a1 = -2. * alpha * inv_a + beta;
+    const double a0 =  2. * alpha * alpha * inv_a * inv_a +
             beta * inv_a + a * gamma;
 
     f +=  inv_a * exp(a * _ul) *
@@ -747,8 +747,8 @@ double cnvl::int_polyexp_erfc(const double& _ll, const double& _ul,
     f += -inv_a * exp(a * _ll) *
             (alpha * _ll * _ll + a1 * _ll + a0) * erfc(_ll);
 
-    cdouble aa1 = a1 + a * alpha;
-    cdouble aa0 = a0 + 0.5 * a * a1 + 0.25 * a * a * alpha;
+    const double aa1 = a1 + a * alpha;
+    const double aa0 = a0 + 0.5 * a * a1 + 0.25 * a * a * alpha;
 
     f += exp(0.25 * a * a) *
             int_polyexp2(_ll - 0.5 * a, _ul - 0.5 * a, alpha, aa1, aa0, 1.);
@@ -759,14 +759,14 @@ double cnvl::norm_xEp_conv_gauss(const double& _ll, const double& _ul,
                                  const double& tau, const double& m,
                                  const double& s, const double& o) const {
     if (s == 0.) return norm_xEp(_ll - m, _ul - m, tau, o);
-    cdouble inv_atau = 1. / fabs(tau);
-    cdouble inv_s = 1. / fabs(s);
+    const double inv_atau = 1. / fabs(tau);
+    const double inv_s = 1. / fabs(s);
 
-    cdouble ns = fabs(s) * inv_atau;
-    cdouble ns2 = ns * ns;
+    const double ns = fabs(s) * inv_atau;
+    const double ns2 = ns * ns;
 
-    cdouble nll = (-(_ll - m - o) - ns * s) * inv_sqrt2 * inv_s;
-    cdouble nul = (-(_ul - m - o) - ns * s) * inv_sqrt2 * inv_s;
+    const double nll = (-(_ll - m - o) - ns * s) * inv_sqrt2 * inv_s;
+    const double nul = (-(_ul - m - o) - ns * s) * inv_sqrt2 * inv_s;
 
     return ns2 * exp(1.5 * ns2) *
            int_polyexp_erfc(nll, nul, 0., 1., 0., ns * sqrt2) +
@@ -777,14 +777,14 @@ double cnvl::norm_xEn_conv_gauss(const double& _ll, const double& _ul,
                                  const double& tau, const double& m,
                                  const double& s, const double& o) const {
     if (s == 0.) return norm_xEn(_ll - m, _ul - m, tau, o);
-    cdouble inv_atau = 1. / fabs(tau);
-    cdouble inv_s = 1. / fabs(s);
+    const double inv_atau = 1. / fabs(tau);
+    const double inv_s = 1. / fabs(s);
 
-    cdouble ns = fabs(s) * inv_atau;
-    cdouble ns2 = ns * ns;
+    const double ns = fabs(s) * inv_atau;
+    const double ns2 = ns * ns;
 
-    cdouble nll = ((_ll - m - o) - ns * s) * inv_sqrt2 * inv_s;
-    cdouble nul = ((_ul - m - o) - ns * s) * inv_sqrt2 * inv_s;
+    const double nll = ((_ll - m - o) - ns * s) * inv_sqrt2 * inv_s;
+    const double nul = ((_ul - m - o) - ns * s) * inv_sqrt2 * inv_s;
 
     return ns2 * exp(1.5 * ns2) *
            int_polyexp_erfc(nll, nul, 0., 1., 0., ns * sqrt2) +
@@ -800,23 +800,23 @@ double cnvl::norm_xEf_conv_gauss(const double& _ll, const double& _ul,
 
 double cnvl::norm_xEp(const double& _ll, const double& _ul,
                       const double& tau, const double& o) const {
-    cdouble inv_atau = 1. / fabs(tau);
-    cdouble nul = (_ul-o >= 0.) ? (_ul - o) * inv_atau : 0.;
-    cdouble nll = (_ll-o >= 0.) ? (_ll - o) * inv_atau : 0.;
+    const double inv_atau = 1. / fabs(tau);
+    const double nul = (_ul-o >= 0.) ? (_ul - o) * inv_atau : 0.;
+    const double nll = (_ll-o >= 0.) ? (_ll - o) * inv_atau : 0.;
     if (nul == nll) return 0;
-    cdouble vu = exp(-nul) * (-1. - nul);
-    cdouble vl = exp(-nll) * (-1. - nll);
+    const double vu = exp(-nul) * (-1. - nul);
+    const double vl = exp(-nll) * (-1. - nll);
     return vu - vl;
 }
 
 double cnvl::norm_xEn(const double& _ll, const double& _ul,
                       const double& tau, const double& o) const {
-    cdouble inv_atau = 1. / fabs(tau);
-    cdouble nul = (_ul - o < 0.) ? (_ul - o) * inv_atau : 0.;
-    cdouble nll = (_ll - o < 0.) ? (_ll - o) * inv_atau : 0.;
+    const double inv_atau = 1. / fabs(tau);
+    const double nul = (_ul - o < 0.) ? (_ul - o) * inv_atau : 0.;
+    const double nll = (_ll - o < 0.) ? (_ll - o) * inv_atau : 0.;
     if (nul == nll) return 0;
-    cdouble vu = exp(nul) * (1. - nul);
-    cdouble vl = exp(nll) * (1. - nll);
+    const double vu = exp(nul) * (1. - nul);
+    const double vl = exp(nll) * (1. - nll);
     return vu - vl;
 }
 
@@ -827,8 +827,8 @@ double cnvl::norm_xEf(const double& _ll, const double& _ul,
 
 double cnvl::norm_nmg_sup(const double& m, const double& s,
                           const double& xd) const {
-    cdouble as = fabs(s);
-    cdouble inv_as = 1. / as;
+    const double as = fabs(s);
+    const double inv_as = 1. / as;
 
     double rex = inv_sqrt2 * xd * as;
     double imx = inv_sqrt2 * (as + m * inv_as);
@@ -847,7 +847,7 @@ double cnvl::norm_nmg_sup(const double& m, const double& s,
 double cnvl::norm_nAn_conv_gauss(const double& ll, const double& ul,
                                  const double& xd, const double& m,
                                  const double& s, const double& o) const {
-    cdouble inv_as = 1. / fabs(s);
+    const double inv_as = 1. / fabs(s);
     return (-xd + 0.5 * (xd * erfc(inv_sqrt2 * inv_as * (-ll + o + m)) -
                          norm_nag_sup(ll - o - m, s, xd)) +
                   0.5 * (xd * erfc(inv_sqrt2 * inv_as *  (ul - o - m)) +
@@ -858,7 +858,7 @@ double cnvl::norm_nAn_conv_gauss(const double& ll, const double& ul,
 double cnvl::norm_nAp_conv_gauss(const double& ll, const double& ul,
                                  const double& xd, const double& m,
                                  const double& s, const double& o) const {
-    cdouble inv_as = 1. / fabs(s);
+    const double inv_as = 1. / fabs(s);
     return (xd - 0.5 * (xd * erfc(inv_sqrt2 * inv_as * (-ll + o + m)) +
                         norm_nag_sup(-ll + o + m, s, xd)) -
                  0.5 * (xd * erfc(inv_sqrt2 * inv_as *  (ul - o - m)) -
@@ -876,7 +876,7 @@ double cnvl::norm_nAf_conv_gauss(const double& ll, const double& ul,
 double cnvl::norm_nMn_conv_gauss(const double& ll, const double& ul,
                                  const double& xd, const double& m,
                                  const double& s, const double& o) const {
-    cdouble inv_as = 1. / fabs(s);
+    const double inv_as = 1. / fabs(s);
     return (1. - 0.5 * (erfc(inv_sqrt2 * inv_as * (-ll + o + m)) -
                         norm_nmg_sup(ll - o - m, s, xd)) -
                  0.5 * (erfc(inv_sqrt2 * inv_as *  (ul - o - m)) +
@@ -887,7 +887,7 @@ double cnvl::norm_nMn_conv_gauss(const double& ll, const double& ul,
 double cnvl::norm_nMp_conv_gauss(const double& ll, const double& ul,
                                  const double& xd, const double& m,
                                  const double& s, const double& o) const {
-    cdouble inv_as = 1. / fabs(s);
+    const double inv_as = 1. / fabs(s);
     return (1. - 0.5 * (erfc(inv_sqrt2 * inv_as * (-ll + o + m)) +
                         norm_nmg_sup(-ll + o + m, s, xd)) -
                  0.5 * (erfc(inv_sqrt2 * inv_as *  (ul - o - m)) -
@@ -906,7 +906,7 @@ double cnvl::norm_An_conv_gauss(const double& ll, const double& ul,
                                 const double& tau, const double& dm,
                                 const double& m, const double& s,
                                 const double& o) const {
-    cdouble inv_atau = 1. / fabs(tau);
+    const double inv_atau = 1. / fabs(tau);
     return tau * norm_nAn_conv_gauss(ll * inv_atau, ul * inv_atau,
                                      dm * fabs(tau), m * inv_atau,
                                      s  * inv_atau,  o * inv_atau);
@@ -916,7 +916,7 @@ double cnvl::norm_Ap_conv_gauss(const double& ll, const double& ul,
                                 const double& tau, const double& dm,
                                 const double& m, const double& s,
                                 const double& o) const {
-    cdouble inv_atau = 1. / fabs(tau);
+    const double inv_atau = 1. / fabs(tau);
     return tau * norm_nAp_conv_gauss(ll * inv_atau, ul * inv_atau,
                                      dm * fabs(tau), m * inv_atau,
                                      s  * inv_atau,  o * inv_atau);
@@ -926,7 +926,7 @@ double cnvl::norm_Af_conv_gauss(const double& ll, const double& ul,
                                 const double& tau, const double& dm,
                                 const double& m, const double& s,
                                 const double& o) const {
-    cdouble inv_atau = 1. / fabs(tau);
+    const double inv_atau = 1. / fabs(tau);
     return tau * norm_nAf_conv_gauss(ll * inv_atau, ul * inv_atau,
                                      dm * fabs(tau), m * inv_atau,
                                      s  * inv_atau,  o * inv_atau);
@@ -936,7 +936,7 @@ double cnvl::norm_Mn_conv_gauss(const double& ll, const double& ul,
                                 const double& tau, const double& dm,
                                 const double& m, const double& s,
                                 const double& o) const {
-    cdouble inv_atau = 1. / fabs(tau);
+    const double inv_atau = 1. / fabs(tau);
     return tau * norm_nMn_conv_gauss(ll * inv_atau, ul * inv_atau,
                                      dm * fabs(tau), m * inv_atau,
                                      s  * inv_atau,  o * inv_atau);
@@ -946,7 +946,7 @@ double cnvl::norm_Mp_conv_gauss(const double& ll, const double& ul,
                                 const double& tau, const double& dm,
                                 const double& m, const double& s,
                                 const double& o) const {
-    cdouble inv_atau = 1. / fabs(tau);
+    const double inv_atau = 1. / fabs(tau);
     return tau * norm_nMp_conv_gauss(ll * inv_atau, ul * inv_atau,
                                      dm * fabs(tau), m * inv_atau,
                                      s  * inv_atau,  o * inv_atau);
@@ -956,7 +956,7 @@ double cnvl::norm_Mf_conv_gauss(const double& ll, const double& ul,
                                 const double& tau, const double& dm,
                                 const double& m, const double& s,
                                 const double& o) const {
-    cdouble inv_atau = 1. / fabs(tau);
+    const double inv_atau = 1. / fabs(tau);
     return tau * norm_nMf_conv_gauss(ll * inv_atau, ul * inv_atau,
                                      dm * fabs(tau), m * inv_atau,
                                      s  * inv_atau,  o * inv_atau);
