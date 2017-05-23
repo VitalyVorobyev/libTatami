@@ -19,11 +19,12 @@ namespace libTatami {
 
 AbsICPVPdf::AbsICPVPdf(const double& tau, const double& dm,
                        const double& c, const double& s) :
-    m_tau(tau), m_dm(dm), m_c(c), m_s(s), m_tag(1) {}
+    m_tau(tau), m_dm(dm), m_c(c), m_s(s), m_tag(1), m_wtag(0.) {}
 
 void AbsICPVPdf::print_params(void) const {
-    cout << "  tau: " << m_tau << endl;
-    cout << "  dm: " << m_dm << endl;
+    cout << "  tau: " << m_tau << endl
+         << "  dm: " << m_dm << endl
+         << "  wtag: " << m_wtag << endl;
 }
 
 }  // namespace libTatami

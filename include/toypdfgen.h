@@ -25,7 +25,6 @@ namespace libTatami {
 
 typedef std::uniform_real_distribution<double> unidist;
 typedef std::default_random_engine             rndmeng;
-typedef std::vector<double>                    vectd;
 
 ///
 /// \brief The ToyPdfGen class. Generator for toy studies.
@@ -47,14 +46,21 @@ class ToyPdfGen {
     /// \param silent
     /// \return
     ///
-    int Generate(const int N, vectd* vec, const bool silent = false);
+    int Generate(const uint64_t N, std::vector<double>* vec,
+                 const bool silent = false);
     ///
     /// \brief SetSeed. Initialize random numbers generator
     /// \param seed
     ///
-    void SetSeed(const unsigned seed);
+    void SetSeed(const uint32_t seed);
 
  private:
+    /**
+     * @brief FindMaj
+     * @param N. How many tries of tries
+     * @return
+     */
+    double FindMaj(const uint64_t N);
     ///
     /// \brief init
     ///
@@ -70,11 +76,11 @@ class ToyPdfGen {
     ///
     /// \brief m_seed
     ///
-    unsigned m_seed;
+    uint32_t m_seed;
     ///
     /// \brief m_maxtries
     ///
-    int64_t m_maxtries;
+    uint64_t m_maxtries;
     ///
     /// \brief m_pdf
     ///

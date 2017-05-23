@@ -10,8 +10,11 @@
 
 #include "../include/toypdfgen.h"
 
+typedef std::vector<double> vectd;
+
 using std::cout;
 using std::endl;
+using std::cerr;
 using std::random_device;
 
 namespace libTatami {
@@ -21,24 +24,38 @@ ToyPdfGen::ToyPdfGen(AbsPdf *pdf):
     init();
 }
 
-int ToyPdfGen::Generate(const int N, vectd* vec, const bool silent) {
-    const double maj = (*m_pdf)(0);
+double ToyPdfGen::FindMaj(const uint64_t N) {
+    double maj = 0;
+    for (uint64_t i = 0; i < N; i++) {
+        double dt = (*unif)(re);
+        double pdf = (*m_pdf)(dt);
+        if (pdf > maj) maj = pdf;
+    }
+    return maj;
+}
+
+int ToyPdfGen::Generate(const uint64_t N, vectd* vec, const bool silent) {
+    double maj = 1.1 * FindMaj(N / 5);
     if (!silent) cout << "Majorant: " << maj << endl;
     vec->clear();
     unidist unifMaj(0., maj);
     rndmeng ren;
 
-    int64_t tries = 0;
-    int64_t Evtn = 0;
-    double dt, xi;
+    uint64_t tries = 0;
+    uint64_t Evtn = 0;
     if (!silent) cout << "Generating " << N << " events..." << endl;
     while (Evtn < N && tries++ < m_maxtries) {
-        dt = (*unif)(re);
-        xi = unifMaj(ren);
-        if (xi < (*m_pdf)(dt)) {
+        double dt = (*unif)(re);
+        double xi = unifMaj(ren);
+        double pdf = (*m_pdf)(dt);
+        if (pdf > maj) {
+            cerr << "Update maj: " << maj << " -> " << 1.1*pdf << endl;
+            maj = 1.1*pdf;
+        }
+        if (xi < pdf) {
           vec->push_back(dt);
           Evtn++;
-          if (!silent && !(Evtn % 1000)) cout << Evtn << " events" << endl;
+          if (!silent && !(Evtn % 10000)) cout << Evtn << " events" << endl;
         }
     }
     const double Eff = static_cast<double>(Evtn) / tries;
@@ -59,7 +76,7 @@ void ToyPdfGen::init(void) {
     SetSeed(m_seed);
 }
 
-void ToyPdfGen::SetSeed(const unsigned seed) {
+void ToyPdfGen::SetSeed(const uint32_t seed) {
   m_seed = seed;
   if (!seed) re.seed(random_device {}());
   else       re.seed(m_seed);

@@ -45,6 +45,11 @@ class AbsICPVPdf : public AbsPdf {
      * @param x
      */
     void SetTag(const int x) {m_tag = x;}
+    /**
+     * @brief SetWTag. Set wrong taggin probability
+     * @param x
+     */
+    void SetWTag(const double& x) {m_wtag = x;}
     ///
     /// \brief SetTauDm. Set lifetime and mass difference
     /// \param tau
@@ -83,6 +88,8 @@ class AbsICPVPdf : public AbsPdf {
     /// \return
     ///
     double dm(void) const {return m_dm;}
+
+    double wtag(void) const {return m_wtag;}
     ///
     /// \brief print_params
     ///
@@ -109,6 +116,10 @@ class AbsICPVPdf : public AbsPdf {
      * @brief m_tag
      */
     int m_tag;
+    /**
+     * @brief m_wtag. Wrong raggin probability
+     */
+    double m_wtag;
 };
 
 }  // namespace libTatami
