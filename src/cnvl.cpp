@@ -15,7 +15,7 @@
 #include "../include/typedefs.h"
 #include "mylibs/Faddeeva/Faddeeva.h"
 
-typedef std::complex<double> compld;
+using compld = std::complex<double>;
 
 using std::fabs;
 using std::exp;
@@ -25,15 +25,15 @@ using std::log;
 
 namespace libTatami {
 
-const double cnvl::inv_sqrt2 =
+constexpr double cnvl::inv_sqrt2 =
         0.707106781186547461715008466853760182857513427734375;
-const double cnvl::inv_sqrt_pi =
+constexpr double cnvl::inv_sqrt_pi =
         0.56418958354775627928034964497783221304416656494140625;
-const double cnvl::sqrt_pi =
+constexpr double cnvl::sqrt_pi =
         1.772453850905515881919427556567825376987457275390625;
-const double cnvl::inv_sqrt_2pi =
+constexpr double cnvl::inv_sqrt_2pi =
         0.398942280401432702863218082711682654917240142822265625;
-const double cnvl::sqrt2 =
+constexpr double cnvl::sqrt2 =
         1.4142135623730951454746218587388284504413604736328125;
 
 double cnvl::xXi_conv_gauss_by_int(nXi_t p_func,
@@ -711,9 +711,8 @@ double cnvl::int_polyexp_erfc(double _ll, double _ul, double alpha,
     return f;
 }
 
-double cnvl::norm_xEp_conv_gauss(double _ll, double _ul,
-                                 double tau, double m,
-                                 double s, double o) const {
+double cnvl::norm_xEp_conv_gauss(double _ll, double _ul, double tau,
+                                 double m, double s, double o) const {
     if (s == 0.) return norm_xEp(_ll - m, _ul - m, tau, o);
     const double inv_atau = 1. / fabs(tau);
     const double inv_s = 1. / fabs(s);
@@ -729,9 +728,8 @@ double cnvl::norm_xEp_conv_gauss(double _ll, double _ul,
            ns2 * norm_gaussian(_ll, _ul, m + o, s);
 }
 
-double cnvl::norm_xEn_conv_gauss(double _ll, double _ul,
-                                 double tau, double m,
-                                 double s, double o) const {
+double cnvl::norm_xEn_conv_gauss(double _ll, double _ul, double tau,
+                                 double m, double s, double o) const {
     if (s == 0.) return norm_xEn(_ll - m, _ul - m, tau, o);
     const double inv_atau = 1. / fabs(tau);
     const double inv_s = 1. / fabs(s);

@@ -27,7 +27,6 @@ ToyPdf::ToyPdf(double m, double w, double fb,
   AbsICPVPdf(), m_m(m), m_w(w), m_fbkg(fb) {
     SetWTag(wtag);
     SetRange(ll, ul);
-//    print_params();
 }
 
 ToyPdf::ToyPdf(const ToyPdf& opdf) :
@@ -36,7 +35,7 @@ ToyPdf::ToyPdf(const ToyPdf& opdf) :
     this->m_ul = opdf.m_ul;
 }
 
-double ToyPdf::operator() (double dt) {
+double ToyPdf::operator() (double dt) const {
     const double pdf_s = pdfSig(dt, m_w);
     const double pdf_b = m_fbkg > 0 ? pdfBkg(dt, m_w) : 0;
     const double pdf = (1. - m_fbkg) * pdf_s + m_fbkg * pdf_b;
@@ -59,20 +58,18 @@ double ToyPdf::operator() (double dt, const int tag) {
     return (*this)(dt);
 }
 
-double ToyPdf::operator() (double dt, const int tag,
-                           double c, double s) {
+double ToyPdf::operator() (double dt, const int tag, double c, double s) {
     m_c = c; m_s = s;
     SetTag(tag);
     return (*this)(dt);
 }
 
-double ToyPdf::operator() (const ICPVEvt& evt) {
+double ToyPdf::operator() (const ICPVEvt& evt) const {
     const double dt = evt.DVar("dt");
     return (*this)(dt);
 }
 
-double ToyPdf::operator() (double dt, double fbkg,
-                           double scale) {
+double ToyPdf::operator() (double dt, double fbkg, double scale) const {
     const double pdf_s =            pdfSig(dt, m_w * scale);
     const double pdf_b = fbkg > 0 ? pdfBkg(dt, m_w * scale) : 0;
     return (1. - fbkg) * pdf_s + fbkg * pdf_b;
@@ -84,14 +81,13 @@ double ToyPdf::operator() (double dt, double c, double s,
     return this->operator()(dt, fbkg, scale);
 }
 
-double ToyPdf::pdfSig(double dt, double wid) {
+double ToyPdf::pdfSig(double dt, double wid) const {
     double pdf = 0; double norm_pdf = 0;
     if (wid > 0) {
         pdf = Ef_conv_gauss(dt, m_tau, m_m, wid) + m_tag * 0.5 * (1. - 2.*m_wtag) / m_tau * (
               m_c * Mf_conv_gauss(dt, m_tau, m_dm, m_m, wid) +
               m_s * Af_conv_gauss(dt, m_tau, m_dm, m_m, wid));
         if (pdf < 0 || isnan(pdf)) {
-//            return 0.;
             cerr << "pdf(" << dt << ") = " << Ef_conv_gauss(dt, m_tau, m_m, wid) << " + " << 0.5 / m_tau << " * ("
                  << "c " << m_c << " * " << Mf_conv_gauss(dt, m_tau, m_dm, m_m, wid) << ") + "
                  << "(s " << m_s << " * " << Af_conv_gauss(dt, m_tau, m_dm, m_m, wid) << ")"
@@ -114,7 +110,7 @@ double ToyPdf::pdfSig(double dt, double wid) {
     return pdf;
 }
 
-double ToyPdf::pdfBkg(double dt, double wid) {
+double ToyPdf::pdfBkg(double dt, double wid) const {
     if (wid <= 0) return 0;
     return gaussian(dt, m_m, wid) / norm_gaussian(m_ll, m_ul, m_m, wid);
 }
