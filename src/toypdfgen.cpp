@@ -10,7 +10,7 @@
 
 #include "../include/toypdfgen.h"
 
-typedef std::vector<double> vectd;
+using vectd = std::vector<double>;
 
 using std::cout;
 using std::endl;
@@ -19,25 +19,25 @@ using std::random_device;
 
 namespace libTatami {
 
-ToyPdfGen::ToyPdfGen(AbsPdf *pdf):
+ToyPdfGen::ToyPdfGen(const AbsPdf& pdf):
   m_seed(0), m_maxtries(1e7), m_pdf(pdf) {
     init();
 }
 
-double ToyPdfGen::FindMaj(const uint64_t N) {
+double ToyPdfGen::FindMaj(uint64_t N) {
     double maj = 0;
     for (uint64_t i = 0; i < N; i++) {
         double dt = (*unif)(re);
-        double pdf = (*m_pdf)(dt);
+        double pdf = m_pdf(dt);
         if (pdf > maj) maj = pdf;
     }
     return maj;
 }
 
-int ToyPdfGen::Generate(const uint64_t N, vectd* vec, const bool silent) {
+auto ToyPdfGen::Generate(const uint64_t N, const bool silent) {
+    vectd vec;
     double maj = 1.1 * FindMaj(N / 5);
     if (!silent) cout << "Majorant: " << maj << endl;
-    vec->clear();
     unidist unifMaj(0., maj);
     rndmeng ren;
 
@@ -47,13 +47,13 @@ int ToyPdfGen::Generate(const uint64_t N, vectd* vec, const bool silent) {
     while (Evtn < N && tries++ < m_maxtries) {
         double dt = (*unif)(re);
         double xi = unifMaj(ren);
-        double pdf = (*m_pdf)(dt);
+        double pdf = m_pdf(dt);
         if (pdf > maj) {
-            cerr << "Update maj: " << maj << " -> " << 1.1*pdf << endl;
-            maj = 1.1*pdf;
+            cerr << "Update maj: " << maj << " -> " << 1.1 * pdf << endl;
+            maj = 1.1 * pdf;
         }
         if (xi < pdf) {
-          vec->push_back(dt);
+          vec.emplace_back(dt);
           Evtn++;
           if (!silent && !(Evtn % 10000)) cout << Evtn << " events" << endl;
         }
@@ -65,14 +65,13 @@ int ToyPdfGen::Generate(const uint64_t N, vectd* vec, const bool silent) {
         cout << "  efficiency:       " << Eff        << endl;
         cout << "  events generated: " << Evtn       << endl;
         cout << "  tries limit: "      << m_maxtries << endl;
-        return -1;
     }
-//    if (!silent) cout << "Done!. Efficiency " << Eff << endl;
-    return 0;
+    if (!silent) cout << "Done!. Efficiency " << Eff << endl;
+    return std::move(vec);
 }
 
 void ToyPdfGen::init(void) {
-    unif = new unidist(m_pdf->ul(), m_pdf->ll());
+    unif = new unidist(m_pdf.ul(), m_pdf.ll());
     SetSeed(m_seed);
 }
 

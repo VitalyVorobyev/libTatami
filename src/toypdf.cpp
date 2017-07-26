@@ -22,12 +22,12 @@ using std::isnan;
 
 namespace libTatami {
 
-ToyPdf::ToyPdf(const double& m, const double& w, const double& fb,
-               const double& wtag, const double& ll, const double& ul) :
+ToyPdf::ToyPdf(double m, double w, double fb,
+               double wtag, double ll, double ul) :
   AbsICPVPdf(), m_m(m), m_w(w), m_fbkg(fb) {
     SetWTag(wtag);
     SetRange(ll, ul);
-    print_params();
+//    print_params();
 }
 
 ToyPdf::ToyPdf(const ToyPdf& opdf) :
@@ -36,20 +36,21 @@ ToyPdf::ToyPdf(const ToyPdf& opdf) :
     this->m_ul = opdf.m_ul;
 }
 
-double ToyPdf::operator() (const double& dt) {
+double ToyPdf::operator() (double dt) {
     const double pdf_s = pdfSig(dt, m_w);
     const double pdf_b = m_fbkg > 0 ? pdfBkg(dt, m_w) : 0;
     const double pdf = (1. - m_fbkg) * pdf_s + m_fbkg * pdf_b;
     if (pdf < 0) {
-        cerr << "ToyPdf::operator(): Negative ToyPdf: fbkg " << m_fbkg
-             << ", pdfs " << pdf_s
-             << ", pdfb " << pdf_b
+        cerr << "ToyPdf::operator(): Negative ToyPdf: fbkg: " << m_fbkg
+             << ", pdfs: " << pdf_s
+             << ", pdfb: " << pdf_b
+             << ", dt: " << dt
              << endl;
     }
     return pdf;
 }
 
-double ToyPdf::operator() (const double& dt, const int tag) {
+double ToyPdf::operator() (double dt, const int tag) {
     if ((tag != 1) && (tag != -1)) {
         cerr << "Wrong tag value " << tag << endl;
         return -1.;
@@ -58,8 +59,8 @@ double ToyPdf::operator() (const double& dt, const int tag) {
     return (*this)(dt);
 }
 
-double ToyPdf::operator() (const double& dt, const int tag,
-                           const double& c, const double& s) {
+double ToyPdf::operator() (double dt, const int tag,
+                           double c, double s) {
     m_c = c; m_s = s;
     SetTag(tag);
     return (*this)(dt);
@@ -70,20 +71,20 @@ double ToyPdf::operator() (const ICPVEvt& evt) {
     return (*this)(dt);
 }
 
-double ToyPdf::operator() (const double& dt, const double& fbkg,
-                           const double& scale) {
+double ToyPdf::operator() (double dt, double fbkg,
+                           double scale) {
     const double pdf_s =            pdfSig(dt, m_w * scale);
     const double pdf_b = fbkg > 0 ? pdfBkg(dt, m_w * scale) : 0;
     return (1. - fbkg) * pdf_s + fbkg * pdf_b;
 }
 
-double ToyPdf::operator() (const double& dt, const double& c, const double& s,
-                           const double& fbkg, const double& scale) {
+double ToyPdf::operator() (double dt, double c, double s,
+                           double fbkg, double scale) {
     m_c = c; m_s = s;
     return this->operator()(dt, fbkg, scale);
 }
 
-double ToyPdf::pdfSig(const double& dt, const double& wid) {
+double ToyPdf::pdfSig(double dt, double wid) {
     double pdf = 0; double norm_pdf = 0;
     if (wid > 0) {
         pdf = Ef_conv_gauss(dt, m_tau, m_m, wid) + m_tag * 0.5 * (1. - 2.*m_wtag) / m_tau * (
@@ -113,7 +114,7 @@ double ToyPdf::pdfSig(const double& dt, const double& wid) {
     return pdf;
 }
 
-double ToyPdf::pdfBkg(const double& dt, const double& wid) {
+double ToyPdf::pdfBkg(double dt, double wid) {
     if (wid <= 0) return 0;
     return gaussian(dt, m_m, wid) / norm_gaussian(m_ll, m_ul, m_m, wid);
 }

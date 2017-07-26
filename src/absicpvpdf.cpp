@@ -17,13 +17,12 @@ using std::endl;
 
 namespace libTatami {
 
-AbsICPVPdf::AbsICPVPdf(const double& tau, const double& dm,
-                       const double& c, const double& s) :
+AbsICPVPdf::AbsICPVPdf(double tau, double dm, double c, double s) :
     m_tau(tau), m_dm(dm), m_c(c), m_s(s), m_tag(1), m_wtag(0.) {}
 
 void AbsICPVPdf::print_params(void) const {
-    cout << "  tau: " << m_tau << endl
-         << "  dm: " << m_dm << endl
+    cout << "   tau: " << m_tau << endl
+         << "    dm: " << m_dm << endl
          << "  wtag: " << m_wtag << endl;
 }
 
