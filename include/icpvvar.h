@@ -8,13 +8,10 @@
  **
  **/
 
-#ifndef INCLUDE_ICPVVAR_H_
-#define INCLUDE_ICPVVAR_H_
+#pragma once
 
 #include <string>
 #include <vector>
-// #include <algorithm>
-// #include <map>
 
 namespace libTatami {
 
@@ -79,28 +76,11 @@ template <class T> class ICPVVar {
     std::string name;
 };
 
-///
-/// \brief dvar
-///
-typedef ICPVVar<double> dvar;
-
-///
-/// \brief ivar
-///
-typedef ICPVVar<int> ivar;
-
-///
-/// \brief dvarvec
-///
-typedef std::vector<dvar> dvarvec;
-// typedef std::map<std::string, double> dvarvec;
-
-///
-/// \brief ivarvec
-///
-typedef std::vector<ivar> ivarvec;
-// typedef std::map<std::string, int> ivarvec;
+// Aliases
+using dvar = ICPVVar<double>;
+using ivar = ICPVVar<int>;
+using dvarvec = std::vector<dvar>;
+using ivarvec = std::vector<ivar> ;
 
 }  // namespace libTatami
 
-#endif  // INCLUDE_ICPVVAR_H_

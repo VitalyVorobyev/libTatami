@@ -8,24 +8,20 @@
  **
  **/
 
-#include "../include/dataclass.h"
+#include "dataclass.h"
 
 namespace libTatami {
 
-DataClass::DataClass(const int svd, const bool mc, const bool bp) :
-    m_svd(svd), m_mc(mc), m_bp(bp)
-{}
+DataClass::DataClass(uint16_t svd, bool mc, bool bp) :
+    m_svd(svd), m_mc(mc), m_bp(bp) {}
 
-DataClass::DataClass(const int svd, const bool mc) :
-    DataClass(svd, mc, false)
-{}
+DataClass::DataClass(uint16_t svd, bool mc) :
+    DataClass(svd, mc, false) {}
 
-DataClass::DataClass(const int svd) :
-    DataClass(svd, false, false)
-{}
+DataClass::DataClass(uint16_t svd) :
+    DataClass(svd, false, false) {}
 
 DataClass::DataClass(void) :
-    DataClass(0, false, false)
-{}
+    DataClass(0, false, false) {}
 
 }  // namespace libTatami

@@ -11,8 +11,8 @@
 #include <complex>
 #include <cmath>
 
-#include "../include/cnvl.h"
-#include "../include/typedefs.h"
+#include "cnvl.h"
+
 #include "mylibs/Faddeeva/Faddeeva.h"
 
 using compld = std::complex<double>;

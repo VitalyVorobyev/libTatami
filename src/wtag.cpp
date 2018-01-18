@@ -8,7 +8,7 @@
  **
  **/
 
-#include "../include/wtag.h"
+#include "wtag.h"
 
 #include <fstream>
 #include <iostream>
@@ -17,16 +17,18 @@
 using std::cout;
 using std::endl;
 using std::ifstream;
+using std::string;
 
 namespace libTatami {
 
-const vectd WTag::m_wbins = {0.0, 0.1, 0.25, 0.5, 0.625, 0.75, 0.875, 1.01};
+const std::vector<double> WTag::m_wbins =
+    {0.0, 0.1, 0.25, 0.5, 0.625, 0.75, 0.875, 1.01};
 
-WTag::WTag(cstr &fname) {
+WTag::WTag(const string &fname) {
     LoadParameters(fname);
 }
 
-int WTag::LoadParameters(cstr& fname) {
+int WTag::LoadParameters(const string& fname) {
     ifstream ifile(fname.c_str(), ifstream::in);
     if (!ifile.is_open()) {
         cout << "WTag::LoadParameters: can't open file " << fname << endl;
@@ -36,7 +38,7 @@ int WTag::LoadParameters(cstr& fname) {
     }
     m_w.clear();
     m_w.push_back(0.5);
-    str line;
+    string line;
     double val, errp, errn;
     while (!ifile.eof()) {
         getline(ifile, line);
@@ -53,7 +55,7 @@ int WTag::LoadParameters(cstr& fname) {
     return m_w.size();
 }
 
-double WTag::Delut(const unsigned bin) const {
+double WTag::Delut(uint16_t bin) const {
     if (!checkBin(bin)) {
         cout << "WTag::Delut: wrong bin " << bin << endl;
         return 0;
@@ -61,15 +63,15 @@ double WTag::Delut(const unsigned bin) const {
     return 1. - 2. * m_w[bin];
 }
 
-double WTag::Delut(cdouble& q) const {
+double WTag::Delut(double q) const {
     return Delut(GetBin(q));
 }
 
-double WTag::WrProb(cdouble& q) const {
+double WTag::WrProb(double q) const {
     return WrProb(GetBin(q));
 }
 
-double WTag::WrProb(const unsigned bin) const {
+double WTag::WrProb(uint16_t bin) const {
     if (!checkBin(bin)) {
         cout << "WTag::WrProb: wrong bin " << bin << endl;
         return 0;
@@ -77,12 +79,12 @@ double WTag::WrProb(const unsigned bin) const {
     return m_w[bin];
 }
 
-unsigned WTag::GetBin(cdouble& q) const {
+uint16_t WTag::GetBin(double q) const {
     if (q <= 0 || q > 1.) return 0;
     return upper_bound(m_wbins.begin(), m_wbins.end(), q) - m_wbins.begin() - 1;
 }
 
-bool WTag::checkBin(const unsigned b) const {
+bool WTag::checkBin(uint16_t b) const {
     return (b < 0 || b >= m_w.size());
 }
 

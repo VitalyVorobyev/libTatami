@@ -1,4 +1,4 @@
-/** Copyright 2016 Vitaly Vorobyev
+/** Copyright 2016-2018 Vitaly Vorobyev
  ** @file wtag.h
  **
  ** @brief This message displayed in Doxygen Files index
@@ -9,13 +9,11 @@
  **
  **/
 
-#ifndef INCLUDE_WTAG_H_
-#define INCLUDE_WTAG_H_
+#pragma once
 
+#include <cstdint>
 #include <vector>
 #include <string>
-
-#include "./typedefs.h"
 
 namespace libTatami {
 
@@ -24,57 +22,54 @@ namespace libTatami {
 /// in tagging quality bins
 ///
 class WTag {
+    bool checkBin(uint16_t b) const;
+    std::vector<double> m_w;
+    std::vector<double> m_dw;
+    static const std::vector<double> m_wbins;
+
  public:
     ///
     /// \brief WTag
     /// \param fname
     ///
-    explicit WTag(const str &fname);
+    explicit WTag(const std::string &fname);
     ///
     /// \brief LoadParameters. Read wrong tagging probability coefficients
     /// from file
     /// \param fname
     /// \return
     ///
-    int LoadParameters(const str& fname);
+    int LoadParameters(const std::string& fname);
     ///
     /// \brief Delut. Delution factor for tagging quality bin
     /// \param bin
     /// \return
     ///
-    double Delut(const unsigned bin) const;
+    double Delut(uint16_t bin) const;
     ///
     /// \brief Delut. Delution factor for tag quality variable
     /// \param q
     /// \return
     ///
-    double Delut(const double& q) const;
+    double Delut(double q) const;
     ///
     /// \brief WrProb. Wrong tagging probability
     /// \param q
     /// \return
     ///
-    double WrProb(const double& q) const;
+    double WrProb(double q) const;
     ///
     /// \brief WrProb. Wrong tagging probability
     /// \param bin
     /// \return
     ///
-    double WrProb(const unsigned bin) const;
+    double WrProb(uint16_t bin) const;
     ///
     /// \brief GetBin. Wrong tagging bin
     /// \param q
     /// \return
     ///
-    unsigned GetBin(const double& q) const;
-
- private:
-    bool checkBin(const unsigned b) const;
-    vectd m_w;
-    vectd m_dw;
-    static const vectd m_wbins;
+    uint16_t GetBin(double q) const;
 };
 
 }  // namespace libTatami
-
-#endif  // INCLUDE_WTAG_H_

@@ -8,8 +8,7 @@
  **
  **/
 
-#ifndef INCLUDE_FENP_H_
-#define INCLUDE_FENP_H_
+#pragma once
 
 namespace libTatami {
 
@@ -21,9 +20,7 @@ class fEnp {
     ///
     /// \brief fEnp
     ///
-    fEnp() {
-        Clear();
-    }
+    fEnp() {Clear();}
     ///
     /// \brief Clear
     ///
@@ -87,5 +84,3 @@ class fEnp {
 };
 
 }  // namespace libTatami
-
-#endif  // INCLUDE_FENP_H_

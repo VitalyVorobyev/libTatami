@@ -1,4 +1,4 @@
-/** Copyright 2016 Vitaly Vorobyev
+/** Copyright 2016-2018 Vitaly Vorobyev
  ** @file toypdf.h
  **
  ** @brief This message displayed in Doxygen Files index
@@ -9,10 +9,11 @@
  **
  **/
 
-#ifndef INCLUDE_TOYPDF_H_
-#define INCLUDE_TOYPDF_H_
+#pragma once
 
 #include "./absicpvpdf.h"
+
+#include <cstdint>
 
 namespace libTatami {
 
@@ -21,6 +22,33 @@ namespace libTatami {
 /// function. Intended for toy studies.
 ///
 class ToyPdf : public AbsICPVPdf {
+    ///
+    /// \brief pdfSig
+    /// \param dt
+    /// \param wid
+    /// \return
+    ///
+    double pdfSig(double dt, double wid) const;
+    ///
+    /// \brief pdfBkg
+    /// \param dt
+    /// \param wid
+    /// \return
+    ///
+    double pdfBkg(double dt, double wid) const;
+    ///
+    /// \brief m_m. Mean of resolution Gaussian
+    ///
+    double m_m;
+    ///
+    /// \brief m_w. Width of resolution Gaussian
+    ///
+    double m_w;
+    ///
+    /// \brief m_fbkg. Backgroud fraction
+    ///
+    double m_fbkg;
+
  public:
     ///
     /// \brief ToyPdf
@@ -28,31 +56,25 @@ class ToyPdf : public AbsICPVPdf {
     /// \param w
     /// \param fb
     ///
-    ToyPdf(const double& m, const double& w, const double& fb=0,
-           const double &wtag=0, const double& ll=-10, const double& ul=10);
+    ToyPdf(double m, double w, double fb=0, double wtag=0,
+           double ll=-10, double ul=10);
     ///
     /// \brief ToyPdf
     ///
     ToyPdf(void): ToyPdf(0., 1.0, 0.) {}
     ///
-    /// \brief ToyPdf
-    /// \param opdf
-    ///
-    ToyPdf(const ToyPdf& opdf);
-    ~ToyPdf() {}
-    ///
     /// \brief operator ()
     /// \param evt
     /// \return
     ///
-    double operator() (const ICPVEvt& evt);
+    double operator() (const ICPVEvt& evt) const override final;
     /**
      * @brief operator ()
      * @param dt. Time difference between signal and tagging B0 meson decays
      * @param tag. B0 tag
      * @return PDF value
      */
-    double operator() (const double& dt, const int tag);
+    double operator() (double dt, int32_t tag);
     /**
      * @brief operator ()
      * @param dt. Time difference between signal and tagging B0 meson decays
@@ -61,14 +83,13 @@ class ToyPdf : public AbsICPVPdf {
      * @param s. Coeff near sin
      * @return PDF value
      */
-    double operator() (const double& dt, const int tag,
-                       const double& c, const double& s);
+    double operator() (double dt, int32_t tag, double c, double s) const;
     ///
     /// \brief operator () Calculate PDF
     /// \param dt
     /// \return
     ///
-    double operator() (const double& dt);
+    double operator() (double dt) const override final;
     ///
     /// \brief operator (). Calculate PDF
     /// \param dt
@@ -76,8 +97,7 @@ class ToyPdf : public AbsICPVPdf {
     /// \param scale
     /// \return
     ///
-    double operator() (const double& dt, const double& fbkg,
-                       const double& scale = 1);
+    double operator() (double dt, double fbkg, double scale = 1) const;
     ///
     /// \brief operator (). Calculate PDF
     /// \param dt
@@ -87,23 +107,23 @@ class ToyPdf : public AbsICPVPdf {
     /// \param scale
     /// \return
     ///
-    double operator() (const double& dt, const double& c, const double& s,
-                       const double& fbkg, const double& scale = 1);
+    double operator() (double dt, double c, double s,
+                       double fbkg, double scale = 1) const;
     ///
     /// \brief SetResMean. Set mean of resolution Gaussian
     /// \param v
     ///
-    void SetResMean(const double& v)  {m_m = v; return;}
+    void SetResMean(double v)  {m_m = v;}
     ///
     /// \brief SetResWidth. Set width of resolution Gaussian
     /// \param v
     ///
-    void SetResWidth(const double& v) {m_w = v; return;}
+    void SetResWidth(double v) {m_w = v;}
     ///
     /// \brief SetFbkg. Set backgroung fraction
     /// \param v
     ///
-    void SetFbkg(const double& v)     {m_fbkg = v; return;}
+    void SetFbkg(double v) {m_fbkg = v;}
     ///
     /// \brief ResMean. Mean of resolution Gaussian
     /// \return
@@ -123,36 +143,6 @@ class ToyPdf : public AbsICPVPdf {
     /// \brief print_params
     ///
     void print_params(void) const;
-
- private:
-    ///
-    /// \brief pdfSig
-    /// \param dt
-    /// \param wid
-    /// \return
-    ///
-    double pdfSig(const double& dt, const double& wid);
-    ///
-    /// \brief pdfBkg
-    /// \param dt
-    /// \param wid
-    /// \return
-    ///
-    double pdfBkg(const double& dt, const double& wid);
-    ///
-    /// \brief m_m. Mean of resolution Gaussian
-    ///
-    double m_m;
-    ///
-    /// \brief m_w. Width of resolution Gaussian
-    ///
-    double m_w;
-    ///
-    /// \brief m_fbkg. Backgroud fraction
-    ///
-    double m_fbkg;
 };
 
 }  // namespace libTatami
-
-#endif  // INCLUDE_TOYPDF_H_

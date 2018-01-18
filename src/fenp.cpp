@@ -8,7 +8,7 @@
  **
  **/
 
-#include "../include/fenp.h"
+#include "fenp.h"
 
 namespace libTatami {
 

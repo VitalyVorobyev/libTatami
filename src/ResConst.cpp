@@ -8,7 +8,7 @@
  **
  **/
 
-#include "../include/ResConst.h"
+#include "ResConst.h"
 
 #include <fstream>
 
@@ -17,14 +17,15 @@ using std::endl;
 using std::getline;
 using std::sscanf;
 using std::ifstream;
+using std::string;
 
 namespace libTatami {
 
-ResConst::ResConst(const str& fname) {
+ResConst::ResConst(const string& fname) {
     LoadParameters(fname);
 }
 
-int ResConst::LoadParameters(const str& fname) {
+int ResConst::LoadParameters(const string& fname) {
     ifstream ifile(fname.c_str(), ifstream::in);
     if (!ifile.is_open()) {
         cout << "ResConst::LoadParameters: can't open file " << fname << endl;
@@ -32,7 +33,7 @@ int ResConst::LoadParameters(const str& fname) {
     } else {
         cout << "Getting dt resolution from file " << fname << endl;
     }
-    str line, name;
+    string line, name;
     double val, errp, errn;
     char namech[15];
     int counter = 0;
@@ -46,80 +47,80 @@ int ResConst::LoadParameters(const str& fname) {
                 continue;
             }
         }
-        name = str(namech);
+        name = string(namech);
         cout << name << " " << val << endl;
-        if (name == str("Srec0")) {
+        if (name == string("Srec0")) {
             m_Srec[0]           = val; counter++; continue;}
-        if (name == str("Srec1")) {
+        if (name == string("Srec1")) {
             m_Srec[1]           = val; counter++; continue;}
-        if (name == str("Sasc0")) {
+        if (name == string("Sasc0")) {
             m_Sasc[0]           = val; counter++; continue;}
-        if (name == str("Sasc1")) {
+        if (name == string("Sasc1")) {
             m_Sasc[1]           = val; counter++; continue;}
-        if (name == str("Snp_global")) {
+        if (name == string("Snp_global")) {
             m_Snp_global        = val; counter++; continue;}
-        if (name == str("Smn_rec")) {
+        if (name == string("Smn_rec")) {
             m_Smn_rec           = val; counter++; continue;}
-        if (name == str("Stl_rec")) {
+        if (name == string("Stl_rec")) {
             m_Stl_rec           = val; counter++; continue;}
-        if (name == str("ftl_rec")) {
+        if (name == string("ftl_rec")) {
             m_ftl_rec           = val; counter++; continue;}
-        if (name == str("Smn_asc")) {
+        if (name == string("Smn_asc")) {
             m_Smn_asc           = val; counter++; continue;}
-        if (name == str("Stl_asc")) {
+        if (name == string("Stl_asc")) {
             m_Stl_asc           = val; counter++; continue;}
-        if (name == str("ftl_asc")) {
+        if (name == string("ftl_asc")) {
             m_ftl_asc           = val; counter++; continue;}
 
-        if (name == str("fd_np_sgl")) {
+        if (name == string("fd_np_sgl")) {
             m_fd_np_sgl         = val; counter++; continue;}
-        if (name == str("tau_np_p_sgl0")) {
+        if (name == string("tau_np_p_sgl0")) {
             m_tau_np_p_sgl[0]   = val; counter++; continue;}
-        if (name == str("tau_np_p_sgl1")) {
+        if (name == string("tau_np_p_sgl1")) {
             m_tau_np_p_sgl[1]   = val; counter++; continue;}
-        if (name == str("tau_np_n_sgl0")) {
+        if (name == string("tau_np_n_sgl0")) {
             m_tau_np_n_sgl[0]   = val; counter++; continue;}
-        if (name == str("tau_np_n_sgl1")) {
+        if (name == string("tau_np_n_sgl1")) {
             m_tau_np_n_sgl[1]   = val; counter++; continue;}
-        if (name == str("fd_np_mlt0")) {
+        if (name == string("fd_np_mlt0")) {
             m_fd_np_mlt[0]      = val; counter++; continue;}
-        if (name == str("fd_np_mlt1")) {
+        if (name == string("fd_np_mlt1")) {
             m_fd_np_mlt[1]      = val; counter++; continue;}
-        if (name == str("fd_np_st_mlt")) {
+        if (name == string("fd_np_st_mlt")) {
             m_fd_np_st_mlt      = val; counter++; continue;}
-        if (name == str("fd_np_xi_mlt")) {
+        if (name == string("fd_np_xi_mlt")) {
             m_fd_np_xi_mlt      = val; counter++; continue;}
-        if (name == str("fd_np_stxi_mlt")) {
+        if (name == string("fd_np_stxi_mlt")) {
             m_fd_np_stxi_mlt    = val; counter++; continue;}
-        if (name == str("fn_np_mlt")) {
+        if (name == string("fn_np_mlt")) {
             m_fn_np_mlt         = val; counter++; continue;}
-        if (name == str("tau_np_p_mlt0")) {
+        if (name == string("tau_np_p_mlt0")) {
             m_tau_np_p_mlt[0]   = val; counter++; continue;}
-        if (name == str("tau_np_p_mlt1")) {
+        if (name == string("tau_np_p_mlt1")) {
             m_tau_np_p_mlt[1]   = val; counter++; continue;}
-        if (name == str("tau_np_p_xi_mlt")) {
+        if (name == string("tau_np_p_xi_mlt")) {
             m_tau_np_p_xi_mlt   = val; counter++; continue;}
-        if (name == str("tau_np_p_stxi_mlt")) {
+        if (name == string("tau_np_p_stxi_mlt")) {
             m_tau_np_p_stxi_mlt = val; counter++; continue;}
-        if (name == str("tau_np_n_mlt0")) {
+        if (name == string("tau_np_n_mlt0")) {
             m_tau_np_n_mlt[0]   = val; counter++; continue;}
-        if (name == str("tau_np_n_mlt1")) {
+        if (name == string("tau_np_n_mlt1")) {
             m_tau_np_n_mlt[1]   = val; counter++; continue;}
-        if (name == str("tau_np_n_xi_mlt")) {
+        if (name == string("tau_np_n_xi_mlt")) {
             m_tau_np_n_xi_mlt   = val; counter++; continue;}
-        if (name == str("tau_np_n_stxi_mlt")) {
+        if (name == string("tau_np_n_stxi_mlt")) {
             m_tau_np_n_stxi_mlt = val; counter++; continue;}
 
-        if (name == str("sigma_ol")) {
+        if (name == string("sigma_ol")) {
             m_sigma_ol          = val; counter++; continue;}
-        if (name == str("f_ol_sgl")) {
+        if (name == string("f_ol_sgl")) {
             m_f_ol_sgl          = val; counter++; continue;}
-        if (name == str("f_ol_mul")) {
+        if (name == string("f_ol_mul")) {
             m_f_ol_mul          = val; counter++; continue;}
 
-        if (name == str("rnp_kink_xi")) {
+        if (name == string("rnp_kink_xi")) {
             m_rnp_kink_xi       = val; counter++; continue;}
-        if (name == str("rnp_kink_st")) {
+        if (name == string("rnp_kink_st")) {
             m_rnp_kink_st       = val; counter++; continue;}
     }
     return counter;

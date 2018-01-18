@@ -9,13 +9,12 @@
  **
  **/
 
-#ifndef INCLUDE_RRECPARS_H_
-#define INCLUDE_RRECPARS_H_
-
-#include "./ResVar.h"
-#include "./ResConst.h"
+#pragma once
 
 namespace libTatami {
+
+class ResConst;
+class RdetVar;
 
 ///
 /// \brief The RrecPars class calculates and keeps auxiliary parameters
@@ -32,24 +31,22 @@ class RrecPars {
     /// \param cnst
     /// \param var
     ///
-    void Calculate(const ResConst& cnst, const RdetVar& var) {
-        calc_vtxparam_rec(var); Rrec_param(cnst, var);
-    }
+    void Calculate(const ResConst& cnst, const RdetVar& var);
     ///
     /// \brief Smain_rec
     /// \return
     ///
-    double Smain_rec()   const {return m_Smain_rec;}
+    double Smain_rec() const {return m_Smain_rec;}
     ///
     /// \brief Stail_rec
     /// \return
     ///
-    double Stail_rec()   const {return m_Stail_rec;}
+    double Stail_rec() const {return m_Stail_rec;}
     ///
     /// \brief ftail_rec
     /// \return
     ///
-    double ftail_rec()   const {return m_ftail_rec;}
+    double ftail_rec() const {return m_ftail_rec;}
     ///
     /// \brief mu_main_rec
     /// \return
@@ -104,5 +101,3 @@ class RrecPars {
 };
 
 }  // namespace libTatami
-
-#endif  // INCLUDE_RRECPARS_H_

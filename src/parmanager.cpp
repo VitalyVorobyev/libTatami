@@ -8,27 +8,30 @@
  **
  **/
 
-#include "../include/parmanager.h"
+#include "parmanager.h"
+
+#include "dataclass.h"
 
 using std::stringstream;
 using std::to_string;
+using std::string;
 
 namespace libTatami {
 
-str ParManager::prefix("/home/vitaly/B0toD0pipi/libTatami/params/");
+string ParManager::prefix("/home/vitaly/B0toD0pipi/libTatami/params/");
 
-str ParManager::WTagFile(const DataClass& dc) {
-    str fname = prefix + "wtag_svd" + to_string(dc.Svd());
+string ParManager::WTagFile(const DataClass& dc) {
+    string fname = prefix + "wtag_svd" + to_string(dc.Svd());
     if (dc.MC()) fname += "_mc";
     return fname + ".txt";
 }
 
-str ParManager::BkgParFile(const DataClass& dc) {
-    return prefix + str("def_bkg.txt");
+string ParManager::BkgParFile(const DataClass& dc) {
+    return prefix + string("def_bkg.txt");
 }
 
-str ParManager::SigParFile(const DataClass& dc) {
-    str fname = prefix + "sig_" + (dc.Bp() ? "bp" : "b0") +
+string ParManager::SigParFile(const DataClass& dc) {
+    string fname = prefix + "sig_" + (dc.Bp() ? "bp" : "b0") +
                 "_svd" + to_string(dc.Svd());
     if (dc.MC()) fname += "_mc";
     return fname + ".txt";

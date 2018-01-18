@@ -8,35 +8,55 @@
  *
  */
 
-#ifndef INCLUDE_MEVT_H_
-#define INCLUDE_MEVT_H_
+#pragma once
 
-#include "./typedefs.h"
+#include <map>
 
 namespace libTatami {
 
 ///
 /// \brief The MEvt class
+/// \todo Not used class yet
 ///
 class MEvt {
+    // Aliases
+    using imap = std::map<std::string, int>;
+    using dmap = std::map<std::string, double>;
+    using ivar = std::pair<std::string, int>;
+    using dvar = std::pair<std::string, double>;
+    ///
+    /// \brief ReadStructure
+    /// \param fname
+    /// \return
+    ///
+    int ReadStructure(const std::string& fname);
+    ///
+    /// \brief m_ivars
+    ///
+    imap m_ivars;
+    ///
+    /// \brief m_dvars
+    ///
+    dmap m_dvars;
+
  public:
     ///
     /// \brief MEvt
     /// \param fname
     ///
-    explicit MEvt(const str& fname);
+    explicit MEvt(const std::string& fname);
     ///
     /// \brief IVal
     /// \param name
     /// \return
     ///
-    int IVal(const str& name) const { return m_ivars.at(name); }
+    int IVal(const std::string& name) const { return m_ivars.at(name); }
     ///
     /// \brief DVal
     /// \param name
     /// \return
     ///
-    double DVal(const str& name) { return m_dvars[name]; }
+    double DVal(const std::string& name) { return m_dvars[name]; }
     ///
     /// \brief IVars
     /// \return
@@ -51,24 +71,6 @@ class MEvt {
     /// \brief PrintStructure
     ///
     void PrintStructure(void) const;
-
- private:
-    ///
-    /// \brief ReadStructure
-    /// \param fname
-    /// \return
-    ///
-    int ReadStructure(const str& fname);
-    ///
-    /// \brief m_ivars
-    ///
-    imap m_ivars;
-    ///
-    /// \brief m_dvars
-    ///
-    dmap m_dvars;
 };
 
 }  // namespace libTatami
-
-#endif  // INCLUDE_MEVT_H_

@@ -11,8 +11,8 @@
 #include <cmath>
 #include <iostream>
 
-#include "../include/rkparam.h"
-#include "../include/ttools.h"
+#include "rkparam.h"
+#include "ttools.h"
 
 using std::sqrt;
 using std::cout;
@@ -24,17 +24,15 @@ RkPar::RkPar(void) :
     m_ak(1.), m_ck(0.), m_r_ckak(0.),
     m_ndm_n(1.), m_ndm_p(1.), m_ndmtau(1.),
     m_cktau(1.), m_ntau_n(1.), m_ntau_p(1.),
-    m_fact_n_e(0.), m_fact_p_e(0.), m_fact_am(0.)
-{}
+    m_fact_n_e(0.), m_fact_p_e(0.), m_fact_am(0.) {}
 
-int RkPar::SetAkCk(const double& costh, const double& ecm,
-                   const double& tau, const double& dm) {
+int RkPar::SetAkCk(double costh, double ecm, double tau, double dm) {
     m_ak = ecm / TTools::mbzero;
     const double pcm = sqrt(ecm * ecm - TTools::mbzero * TTools::mbzero);
     m_ck = pcm * costh / (TTools::beta * TTools::mbzero);
     if (m_ak == 0. || m_ak == m_ck) {
-        cout << "RkPar::SetAkCk: Invalid ak = " << m_ak << ", ck = " << m_ck;
-        cout << ", where they should be ak!=0.0 && ak!=ck." << endl;
+        cout << "RkPar::SetAkCk: Invalid ak = " << m_ak << ", ck = " << m_ck
+             << ", where they should be ak!=0.0 && ak!=ck." << endl;
         return -1;
     }
     m_r_ckak = m_ck / m_ak;

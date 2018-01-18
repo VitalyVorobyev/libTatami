@@ -8,28 +8,26 @@
  **
  **/
 
+#include "mevt.h"
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
-
-#include "../include/mevt.h"
 
 using std::cout;
 using std::endl;
 using std::ifstream;
 using std::istringstream;
 using std::getline;
+using std::string;
 
 namespace libTatami {
 
-typedef std::pair<str, int>    ivar;
-typedef std::pair<str, double> dvar;
-
-MEvt::MEvt(const str& fname) {
+MEvt::MEvt(const string& fname) {
     ReadStructure(fname);
 }
 
-int MEvt::ReadStructure(const str &fname) {
+int MEvt::ReadStructure(const string& fname) {
     ifstream ifile(fname.c_str(), ifstream::in);
     if (!ifile.is_open()) {
         cout << "MEvt::ReadStructure: can't open file " << fname << endl;
@@ -38,12 +36,12 @@ int MEvt::ReadStructure(const str &fname) {
         cout << "Getting event structure from file " << fname << endl;
     }
     m_ivars.clear(); m_dvars.clear();
-    str line, name, type, dscr;
+    string line, name, type, dscr;
     istringstream out;
     while (getline(ifile, line)) {
         out.str(line); out >> name; out >> type; out >> dscr;
-        if (type == str("D")) m_dvars.insert(ivar(name, 0));
-        else if (type == str("I")) m_ivars.insert(ivar(name, 0));
+        if (type == string("D")) m_dvars.insert(ivar(name, 0));
+        else if (type == string("I")) m_ivars.insert(ivar(name, 0));
         else
             cout << "MEvt::ReadStructure: wrong var type " << type << endl;
     }

@@ -8,66 +8,33 @@
  *
  */
 
-#ifndef INCLUDE_RASCPDF_H_
-#define INCLUDE_RASCPDF_H_
+#pragma once
 
-#include "./abspdf.h"
-#include "./ResConst.h"
-#include "./ResVar.h"
-#include "./rascrnppars.h"
-#include "./parmanager.h"
+#include "abspdf.h"
+#include "ResConst.h"
+#include "ResVar.h"
+#include "rascrnppars.h"
 
 namespace libTatami {
+
+class DataClass;
 
 ///
 /// \brief The RascPdf class describes asc vertex resolution
 ///
 class RascPdf: public AbsPdf {
- public:
-    ///
-    /// \brief RascPdf
-    /// \param dc
-    ///
-    explicit RascPdf(const DataClass &dc) :
-        AbsPdf(), m_cnst(ParManager::SigParFile(dc)) {}
-    ///
-    /// \brief operator ()
-    /// \param evt
-    /// \return
-    ///
-    double operator()(const ICPVEvt& evt);
-    ///
-    /// \brief operator ()
-    /// \param x
-    /// \return
-    ///
-    double operator()(const double& x);
-    ///
-    /// \brief RascRnp
-    /// \param evt
-    /// \return
-    ///
-    double RascRnp(const ICPVEvt& evt);
-    ///
-    /// \brief norm_RascRnp
-    /// \param evt
-    /// \return
-    ///
-    double norm_RascRnp(const ICPVEvt& evt);
-
- private:
     ///
     /// \brief ReadVars
     /// \param evt
     /// \return
     ///
-    int ReadVars(const ICPVEvt& evt);
+    int ReadVars(const ICPVEvt& evt) const;
     ///
     /// \brief PdfRascRnp
     /// \param evt
     /// \return
     ///
-    double PdfRascRnp(const ICPVEvt& evt);
+    double PdfRascRnp(const ICPVEvt& evt) const;
     ///
     /// \brief PdfRascRnp
     /// \return
@@ -86,25 +53,54 @@ class RascPdf: public AbsPdf {
     ///
     /// \brief m_pars
     ///
-    RascRnpPars m_pars;
+    mutable RascRnpPars m_pars;
     ///
     /// \brief m_cnst
     ///
-    ResConst    m_cnst;
+    const ResConst m_cnst;
     ///
     /// \brief m_vars
     ///
-    RdetVar     m_vars;
+    mutable RdetVar m_vars;
     ///
     /// \brief keeptagl
     ///
-    int keeptagl;
+    mutable int keeptagl;
     ///
     /// \brief dz
     ///
-    double dz;
+    mutable double dz;
+
+ public:
+    ///
+    /// \brief RascPdf
+    /// \param dc
+    ///
+    explicit RascPdf(const DataClass &dc);
+    ///
+    /// \brief operator ()
+    /// \param evt
+    /// \return
+    ///
+    double operator()(const ICPVEvt& evt) const override final;
+    ///
+    /// \brief operator ()
+    /// \param x
+    /// \return
+    ///
+    double operator()(double x) const override final;
+    ///
+    /// \brief RascRnp
+    /// \param evt
+    /// \return
+    ///
+    double RascRnp(const ICPVEvt& evt) const;
+    ///
+    /// \brief norm_RascRnp
+    /// \param evt
+    /// \return
+    ///
+    double norm_RascRnp(const ICPVEvt& evt) const;
 };
 
 }  // namespace libTatami
-
-#endif  // INCLUDE_RASCPDF_H_

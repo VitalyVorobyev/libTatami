@@ -8,19 +8,114 @@
  **
  **/
 
-#ifndef INCLUDE_RASCRNPPARS_H_
-#define INCLUDE_RASCRNPPARS_H_
-
-#include "./ResVar.h"
-#include "./ResConst.h"
+#pragma once
 
 namespace libTatami {
+
+class ResConst;
+class RdetVar;
 
 ///
 /// \brief The RascRnpPars class calculates and keeps auxiliary parameters
 /// for asc side vertex resolution
 ///
 class RascRnpPars {
+    ///
+    /// \brief calc_vtxparam_asc
+    /// \param var
+    ///
+    void calc_vtxparam_asc(const RdetVar& var);
+    ///
+    /// \brief Rasc_param
+    /// \param pars
+    /// \param var
+    ///
+    void Rasc_param(const ResConst& pars, const RdetVar& var);
+    ///
+    /// \brief Rnp_paramOld
+    /// \param cnst
+    /// \param var
+    /// \param keeptagl
+    ///
+    void Rnp_paramOld(const ResConst& cnst, const RdetVar& var, int keeptagl);
+    ///
+    /// \brief Rnp_param
+    /// \param cnst
+    /// \param var
+    /// \param keeptagl
+    ///
+    void Rnp_param(const ResConst& cnst, const RdetVar& var, int keeptagl);
+    ///
+    /// \brief Rnp_param_03
+    /// \param cnst
+    /// \param var
+    /// \param keeptagl
+    ///
+    void Rnp_param_03(const ResConst& cnst, const RdetVar& var, int keeptagl);
+    ///
+    /// \brief Rnp_param_10
+    /// \param cnst
+    /// \param var
+    /// \param keeptagl
+    ///
+    void Rnp_param_10(const ResConst& cnst, const RdetVar& var, int keeptagl);
+
+  // Rasc //
+    ///
+    /// \brief m_Smain_asc
+    ///
+    double m_Smain_asc;
+    ///
+    /// \brief m_Stail_asc
+    ///
+    double m_Stail_asc;
+    ///
+    /// \brief m_ftail_asc
+    ///
+    double m_ftail_asc;
+    ///
+    /// \brief m_mu_main_asc
+    ///
+    double m_mu_main_asc;
+    ///
+    /// \brief m_mu_tail_asc
+    ///
+    double m_mu_tail_asc;
+    ///
+    /// \brief m_xi_asc
+    ///
+    double m_xi_asc;
+    ///
+    /// \brief m_st_asc
+    ///
+    double m_st_asc;
+
+  // Rnp //
+    ///
+    /// \brief m_fd
+    ///
+    double m_fd;
+    ///
+    /// \brief m_fp
+    ///
+    double m_fp;
+    ///
+    /// \brief m_tau_np_p
+    ///
+    double m_tau_np_p;
+    ///
+    /// \brief m_tau_np_n
+    ///
+    double m_tau_np_n;
+    ///
+    /// \brief m_tau_np_p_tl
+    ///
+    double m_tau_np_p_tl;
+    ///
+    /// \brief m_tau_np_n_tl
+    ///
+    double m_tau_np_n_tl;
+
  public:
     ///
     /// \brief RascRnpPars
@@ -32,8 +127,7 @@ class RascRnpPars {
     /// \param var
     /// \param keeptagl
     ///
-    void Calculate(const ResConst& cnst, const RdetVar& var,
-                   const int keeptagl) {
+    void Calculate(const ResConst& cnst, const RdetVar& var, int keeptagl) {
         calc_vtxparam_asc(var);
         Rasc_param(cnst, var);
         Rnp_param(cnst, var, keeptagl);
@@ -108,109 +202,6 @@ class RascRnpPars {
     /// \return
     ///
     double tau_np_n_tl() const {return m_tau_np_n_tl;}
-
- private:
-    ///
-    /// \brief calc_vtxparam_asc
-    /// \param var
-    ///
-    void calc_vtxparam_asc(const RdetVar& var);
-    ///
-    /// \brief Rasc_param
-    /// \param pars
-    /// \param var
-    ///
-    void Rasc_param(const ResConst& pars, const RdetVar& var);
-    ///
-    /// \brief Rnp_paramOld
-    /// \param cnst
-    /// \param var
-    /// \param keeptagl
-    ///
-    void Rnp_paramOld(const ResConst& cnst, const RdetVar& var,
-                      const int keeptagl);
-    ///
-    /// \brief Rnp_param
-    /// \param cnst
-    /// \param var
-    /// \param keeptagl
-    ///
-    void Rnp_param(const ResConst& cnst, const RdetVar& var,
-                   const int keeptagl);
-    ///
-    /// \brief Rnp_param_03
-    /// \param cnst
-    /// \param var
-    /// \param keeptagl
-    ///
-    void Rnp_param_03(const ResConst& cnst, const RdetVar& var,
-                      const int keeptagl);
-    ///
-    /// \brief Rnp_param_10
-    /// \param cnst
-    /// \param var
-    /// \param keeptagl
-    ///
-    void Rnp_param_10(const ResConst& cnst, const RdetVar& var,
-                      const int keeptagl);
-
-  // Rasc //
-    ///
-    /// \brief m_Smain_asc
-    ///
-    double m_Smain_asc;
-    ///
-    /// \brief m_Stail_asc
-    ///
-    double m_Stail_asc;
-    ///
-    /// \brief m_ftail_asc
-    ///
-    double m_ftail_asc;
-    ///
-    /// \brief m_mu_main_asc
-    ///
-    double m_mu_main_asc;
-    ///
-    /// \brief m_mu_tail_asc
-    ///
-    double m_mu_tail_asc;
-    ///
-    /// \brief m_xi_asc
-    ///
-    double m_xi_asc;
-    ///
-    /// \brief m_st_asc
-    ///
-    double m_st_asc;
-
-  // Rnp //
-    ///
-    /// \brief m_fd
-    ///
-    double m_fd;
-    ///
-    /// \brief m_fp
-    ///
-    double m_fp;
-    ///
-    /// \brief m_tau_np_p
-    ///
-    double m_tau_np_p;
-    ///
-    /// \brief m_tau_np_n
-    ///
-    double m_tau_np_n;
-    ///
-    /// \brief m_tau_np_p_tl
-    ///
-    double m_tau_np_p_tl;
-    ///
-    /// \brief m_tau_np_n_tl
-    ///
-    double m_tau_np_n_tl;
 };
 
 }  // namespace libTatami
-
-#endif  // INCLUDE_RASCRNPPARS_H_

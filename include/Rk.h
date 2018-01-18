@@ -8,11 +8,10 @@
  **
  */
 
-#ifndef INCLUDE_RK_H_
-#define INCLUDE_RK_H_
+#pragma once
 
-#include "./absicpvpdf.h"
-#include "./rkparam.h"
+#include "absicpvpdf.h"
+#include "rkparam.h"
 
 namespace libTatami {
 
@@ -21,31 +20,12 @@ namespace libTatami {
 /// kinematic approximation dz -> dt.
 ///
 class RkPdf: public AbsICPVPdf {
- public:
-    ///
-    /// \brief RkPdf
-    ///
-    RkPdf(): AbsICPVPdf() {}
-    ///
-    /// \brief operator (). Calculate PDF
-    /// \param evt
-    /// \return
-    ///
-    double operator()(const ICPVEvt& evt);
-    ///
-    /// \brief operator (). Calculate PDF
-    /// \param x
-    /// \return
-    ///
-    double operator()(const double& x) const;
-
- private:
     ///
     /// \brief Pdf
     /// \param x
     /// \return
     ///
-    double Pdf(const double& x) const;
+    double Pdf(double x) const;
     ///
     /// \brief norm_EfRk
     /// \return
@@ -66,25 +46,41 @@ class RkPdf: public AbsICPVPdf {
     /// \param x
     /// \return
     ///
-    double EfRk(const double& x) const;
+    double EfRk(double x) const;
     ///
     /// \brief AfRk
     /// \param x
     /// \return
     ///
-    double AfRk(const double& x) const;
+    double AfRk(double x) const;
     ///
     /// \brief MfRk
     /// \param x
     /// \return
     ///
-    double MfRk(const double& x) const;
+    double MfRk(double x) const;
     ///
     /// \brief m_pars
     ///
-    RkPar m_pars;
+    mutable RkPar m_pars;
+
+ public:
+    ///
+    /// \brief RkPdf
+    ///
+    RkPdf(): AbsICPVPdf() {}
+    ///
+    /// \brief operator (). Calculate PDF
+    /// \param evt
+    /// \return
+    ///
+    double operator()(const ICPVEvt& evt) const override final;
+    ///
+    /// \brief operator (). Calculate PDF
+    /// \param x
+    /// \return
+    ///
+    double operator()(double x) const override final;
 };
 
 }  // namespace libTatami
-
-#endif  // INCLUDE_RK_H_

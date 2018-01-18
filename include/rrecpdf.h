@@ -9,61 +9,29 @@
  **
  **/
 
-#ifndef INCLUDE_RRECPDF_H_
-#define INCLUDE_RRECPDF_H_
+#pragma once
 
-#include "./abspdf.h"
-#include "./ResConst.h"
-#include "./ResVar.h"
-#include "./rrecpars.h"
-#include "./parmanager.h"
+#include "abspdf.h"
+#include "ResConst.h"
+#include "rrecpars.h"
+#include "ResVar.h"
 
 namespace libTatami {
+
+class ICPVEvt;
+class DataClass;
 
 ///
 /// \brief The RrecPdf class describes rec side vertex resolution.
 ///
 class RrecPdf: public AbsPdf {
- public:
-    ///
-    /// \brief RrecPdf
-    /// \param dc
-    ///
-    explicit RrecPdf(const DataClass &dc) :
-        AbsPdf(), m_cnst(ParManager::SigParFile(dc)) {}
-    ///
-    /// \brief operator (). Normalized PDF for rec side resolution
-    /// \param evt
-    /// \return
-    ///
-    double operator()(const ICPVEvt& evt);
-    ///
-    /// \brief operator (). Normalized PDF for rec side resolution
-    /// \param x
-    /// \return
-    ///
-    double operator()(const double& x);
-    ///
-    /// \brief Rrec. Non-normalized PDF for rec side resolution
-    /// \param evt
-    /// \return
-    ///
-    double Rrec(const ICPVEvt& evt);
-    ///
-    /// \brief norm_Rrec. Normalization for rec side resolution
-    /// \param evt
-    /// \return
-    ///
-    double norm_Rrec(const ICPVEvt& evt);
-
- private:
     ///
     /// \brief Pdf
     /// \param evt
     /// \return
     ///
-    double Pdf(const ICPVEvt& evt);
-    ///
+    double Pdf(const ICPVEvt& evt) const;
+    ///ll
     /// \brief Pdf
     /// \return
     ///
@@ -81,7 +49,7 @@ class RrecPdf: public AbsPdf {
     ///
     /// \brief m_pars. Auxiliary parameters
     ///
-    RrecPars m_pars;
+    mutable RrecPars m_pars;
     ///
     /// \brief m_cnst. Resolution constants
     ///
@@ -89,13 +57,42 @@ class RrecPdf: public AbsPdf {
     ///
     /// \brief m_vars. Event-dependent variables
     ///
-    RdetVar m_vars;
+    mutable RdetVar m_vars;
     ///
     /// \brief dz
     ///
-    double dz;
+    mutable double dz;
+
+ public:
+    ///
+    /// \brief RrecPdf
+    /// \param dc
+    ///
+    explicit RrecPdf(const DataClass &dc);
+    ///
+    /// \brief operator (). Normalized PDF for rec side resolution
+    /// \param evt
+    /// \return
+    ///
+    double operator()(const ICPVEvt& evt) const override final;
+    ///
+    /// \brief operator (). Normalized PDF for rec side resolution
+    /// \param x
+    /// \return
+    ///
+    double operator()(double x) const override final;
+    ///
+    /// \brief Rrec. Non-normalized PDF for rec side resolution
+    /// \param evt
+    /// \return
+    ///
+    double Rrec(const ICPVEvt& evt);
+    ///
+    /// \brief norm_Rrec. Normalization for rec side resolution
+    /// \param evt
+    /// \return
+    ///
+    double norm_Rrec(const ICPVEvt& evt);
 };
 
 }  // namespace libTatami
-
-#endif  // INCLUDE_RRECPDF_H_

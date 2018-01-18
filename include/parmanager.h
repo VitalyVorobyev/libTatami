@@ -8,19 +8,17 @@
  *
  */
 
-#ifndef INCLUDE_PARMANAGER_H_
-#define INCLUDE_PARMANAGER_H_
+#pragma once
 
 #include <string>
 
-#include "./dataclass.h"
-
 namespace libTatami {
 
-typedef std::string str;
+class DataClass;
 
 ///
 /// \brief The ParManager class
+/// \todo move prefix to a text config file
 ///
 class ParManager {
  public:
@@ -33,19 +31,19 @@ class ParManager {
     /// \param dc
     /// \return
     ///
-    static str WTagFile(const DataClass& dc);
+    static std::string WTagFile(const DataClass& dc);
     ///
     /// \brief BkgParFile
     /// \param dc
     /// \return
     ///
-    static str BkgParFile(const DataClass& dc);
+    static std::string BkgParFile(const DataClass& dc);
     ///
     /// \brief SigParFile
     /// \param dc
     /// \return
     ///
-    static str SigParFile(const DataClass& dc);
+    static std::string SigParFile(const DataClass& dc);
     ///
     /// \brief prefix
     ///
@@ -53,5 +51,3 @@ class ParManager {
 };
 
 }  // namespace libTatami
-
-#endif  // INCLUDE_PARMANAGER_H_

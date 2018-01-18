@@ -9,8 +9,7 @@
  **
  **/
 
-#ifndef INCLUDE_TTOOLS_H_
-#define INCLUDE_TTOOLS_H_
+#pragma once
 
 namespace libTatami {
 
@@ -29,20 +28,20 @@ class TTools {
     /// \param s2
     /// \return
     ///
-    static double sum_sigma(const double& s1, const double& s2);
+    static double sum_sigma(double s1, double s2);
     ///
     /// \brief constraint. set double sided limits on variable
     /// \param x
     /// \param ll
     /// \param ul
     ///
-    static void constraint(double* x, const double& ll, const double& ul);
+    static void constraint(double& x, double ll, double ul);
     ///
     /// \brief constraint. set left side limit on variable
     /// \param x
     /// \param ll
     ///
-    static void constraint(double* x, const double& ll);
+    static void constraint(double& x, double ll);
     ///
     /// \brief cm2ps. coefficient to transform cm to ps
     ///
@@ -58,5 +57,3 @@ class TTools {
 };
 
 }  // namespace libTatami
-
-#endif  // INCLUDE_TTOOLS_H_

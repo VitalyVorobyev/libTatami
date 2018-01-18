@@ -8,8 +8,9 @@
  **
  **/
 
-#ifndef INCLUDE_DATACLASS_H_
-#define INCLUDE_DATACLASS_H_
+#pragma once
+
+#include <cstdint>
 
 namespace libTatami {
 
@@ -17,6 +18,19 @@ namespace libTatami {
 /// \brief The DataClass class
 ///
 class DataClass {
+    ///
+    /// \brief m_svd
+    ///
+    uint16_t m_svd;
+    ///
+    /// \brief m_mc
+    ///
+    bool m_mc;
+    ///
+    /// \brief m_bp
+    ///
+    bool m_bp;
+
  public:
     ///
     /// \brief DataClass
@@ -24,18 +38,18 @@ class DataClass {
     /// \param mc
     /// \param bp
     ///
-    DataClass(const int svd, const bool mc, const bool bp);
+    DataClass(uint16_t svd, bool mc, bool bp);
     ///
     /// \brief DataClass
     /// \param svd
     /// \param mc
     ///
-    DataClass(const int svd, const bool mc);
+    DataClass(uint16_t svd, bool mc);
     ///
     /// \brief DataClass
     /// \param svd
     ///
-    explicit DataClass(const int svd);
+    explicit DataClass(uint16_t svd);
     ///
     /// \brief DataClass
     ///
@@ -44,17 +58,17 @@ class DataClass {
     /// \brief SetSVD
     /// \param v
     ///
-    void SetSVD(const int v) {m_svd = v;}
+    void SetSVD(uint16_t v) {m_svd = v;}
     ///
     /// \brief SetMC
     /// \param v
     ///
-    void SetMC(const bool v) {m_mc  = v;}
+    void SetMC(bool v) {m_mc  = v;}
     ///
     /// \brief SetBp
     /// \param v
     ///
-    void SetBp(const bool v) {m_bp  = v;}
+    void SetBp(bool v) {m_bp  = v;}
     ///
     /// \brief Svd
     /// \return
@@ -70,22 +84,7 @@ class DataClass {
     /// \return
     ///
     bool Bp(void) const {return m_bp;}
-
- private:
-    ///
-    /// \brief m_svd
-    ///
-    int m_svd;
-    ///
-    /// \brief m_mc
-    ///
-    bool m_mc;
-    ///
-    /// \brief m_bp
-    ///
-    bool m_bp;
 };
 
 }  // namespace libTatami
 
-#endif  // INCLUDE_DATACLASS_H_

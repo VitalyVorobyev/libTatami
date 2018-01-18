@@ -11,8 +11,9 @@
 #include <iostream>
 #include <cmath>
 
-#include "../include/toypdf.h"
-#include "../include/typedefs.h"
+#include "toypdf.h"
+#include "typedefs.h"
+#include "icpvevent.h"
 
 using std::cout;
 using std::cerr;
@@ -24,15 +25,9 @@ namespace libTatami {
 
 ToyPdf::ToyPdf(double m, double w, double fb,
                double wtag, double ll, double ul) :
-  AbsICPVPdf(), m_m(m), m_w(w), m_fbkg(fb) {
+    AbsICPVPdf(), m_m(m), m_w(w), m_fbkg(fb) {
     SetWTag(wtag);
     SetRange(ll, ul);
-}
-
-ToyPdf::ToyPdf(const ToyPdf& opdf) :
-    ToyPdf(opdf.ResMean(), opdf.ResWidth(), opdf.Fbkg()) {
-    this->m_ll = opdf.m_ll;
-    this->m_ul = opdf.m_ul;
 }
 
 double ToyPdf::operator() (double dt) const {
@@ -49,7 +44,7 @@ double ToyPdf::operator() (double dt) const {
     return pdf;
 }
 
-double ToyPdf::operator() (double dt, const int tag) {
+double ToyPdf::operator() (double dt, int32_t tag) {
     if ((tag != 1) && (tag != -1)) {
         cerr << "Wrong tag value " << tag << endl;
         return -1.;
@@ -58,8 +53,8 @@ double ToyPdf::operator() (double dt, const int tag) {
     return (*this)(dt);
 }
 
-double ToyPdf::operator() (double dt, const int tag, double c, double s) {
-    m_c = c; m_s = s;
+double ToyPdf::operator() (double dt, int32_t tag, double c, double s) const {
+    SetCS(c, s);
     SetTag(tag);
     return (*this)(dt);
 }
@@ -76,43 +71,56 @@ double ToyPdf::operator() (double dt, double fbkg, double scale) const {
 }
 
 double ToyPdf::operator() (double dt, double c, double s,
-                           double fbkg, double scale) {
-    m_c = c; m_s = s;
+                           double fbkg, double scale) const {
+    SetCS(c, s);
     return this->operator()(dt, fbkg, scale);
 }
 
 double ToyPdf::pdfSig(double dt, double wid) const {
     double pdf = 0; double norm_pdf = 0;
     if (wid > 0) {
-        pdf = Ef_conv_gauss(dt, m_tau, m_m, wid) + m_tag * 0.5 * (1. - 2.*m_wtag) / m_tau * (
-              m_c * Mf_conv_gauss(dt, m_tau, m_dm, m_m, wid) +
-              m_s * Af_conv_gauss(dt, m_tau, m_dm, m_m, wid));
+        pdf = Ef_conv_gauss(dt, tau(), m_m, wid) +
+                tag() * 0.5 * (1. - 2.*wtag()) / tau() * (
+              C() * Mf_conv_gauss(dt, tau(), dm(), m_m, wid) +
+              S() * Af_conv_gauss(dt, tau(), dm(), m_m, wid));
         if (pdf < 0 || isnan(pdf)) {
-            cerr << "pdf(" << dt << ") = " << Ef_conv_gauss(dt, m_tau, m_m, wid) << " + " << 0.5 / m_tau << " * ("
-                 << "c " << m_c << " * " << Mf_conv_gauss(dt, m_tau, m_dm, m_m, wid) << ") + "
-                 << "(s " << m_s << " * " << Af_conv_gauss(dt, m_tau, m_dm, m_m, wid) << ")"
+            cerr << "pdf(" << dt << ") = "
+                 << Ef_conv_gauss(dt, tau(), m_m, wid)
+                 << " + " << 0.5 / tau() << " * ("
+                 << "c " << C() << " * "
+                 << Mf_conv_gauss(dt, tau(), dm(), m_m, wid) << ") + "
+                 << "(s " << S() << " * "
+                 << Af_conv_gauss(dt, tau(), dm(), m_m, wid) << ")"
                  << endl;
         }
-        norm_pdf = norm_Ef_conv_gauss(m_ll, m_ul, m_tau, m_m, wid) +
-                   m_tag * 0.5 / m_tau *
-                   m_c * norm_Mf_conv_gauss(m_ll, m_ul, m_tau, m_dm, m_m, wid);
+        norm_pdf = norm_Ef_conv_gauss(ll(), ul(), tau(), m_m, wid) +
+                   tag() * 0.5 / tau() *
+                   C() * norm_Mf_conv_gauss(ll(), ul(), tau(), dm(), m_m, wid);
         if (norm_pdf <= 0) {
             cerr << "Negative norm: " << norm_pdf << endl;
             return 0.;
         }
         pdf /= norm_pdf;
     } else {
-        pdf = exp(-fabs(dt) / m_tau) * (1. + m_tag * (1. - 2.*m_wtag) *
-                                        (m_c * cos(m_dm * dt) + m_s * sin(m_dm * dt)));
-        norm_pdf = 2 * m_tau * (1. + m_tag * m_c * (1. - 2.*m_wtag) / (1. + pow(m_tau * m_dm, 2)));
+        pdf = exp(-fabs(dt) / tau()) * (1. + tag() * (1. - 2.*wtag()) *
+                 (C() * cos(dm() * dt) + S() * sin(dm() * dt)));
+        norm_pdf = 2 * tau() * (1. + tag() * C() * (1. - 2.*wtag()) /
+                               (1. + pow(tau() * dm(), 2)));
         pdf /= norm_pdf;
+        if (pdf < 0) {
+            static int counter = 0;
+            if (counter++ < 10)
+                cerr << "ToyPdf::pdfSig < 0: dt " << dt
+                     << ", c " << C() << ", s " << S() << endl;
+            return 0.;
+        }
     }
     return pdf;
 }
 
 double ToyPdf::pdfBkg(double dt, double wid) const {
     if (wid <= 0) return 0;
-    return gaussian(dt, m_m, wid) / norm_gaussian(m_ll, m_ul, m_m, wid);
+    return gaussian(dt, m_m, wid) / norm_gaussian(ll(), ul(), m_m, wid);
 }
 
 void ToyPdf::print_params(void) const {

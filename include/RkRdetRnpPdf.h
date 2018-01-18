@@ -9,95 +9,41 @@
  **
  **/
 
-#ifndef INCLUDE_RKRDETRNPPDF_H_
-#define INCLUDE_RKRDETRNPPDF_H_
+#pragma once
 
-#include "./absicpvpdf.h"
-#include "./conv_coef.h"
-#include "./icpvevent.h"
-#include "./parmanager.h"
-#include "./rascrnppars.h"
-#include "./rkparam.h"
-#include "./rrecpars.h"
-#include "./ResConst.h"
-#include "./ResVar.h"
-#include "./ttools.h"
-#include "./wtag.h"
+#include "absicpvpdf.h"
+#include "wtag.h"
+#include "ResVar.h"
+#include "conv_coef.h"
+#include "rascrnppars.h"
+#include "rkparam.h"
+#include "rrecpars.h"
+#include "ResConst.h"
 
 namespace libTatami {
+
+// Forward declarations
+class ICPVEvt;
+class DataClass;
 
 ///
 /// \brief The RkRdetRnpPdf class. Provides full parameterization of
 /// signal dt distribution at Belle
+/// \todo !!!! cexp and amix not initialized !!!!
 ///
 class RkRdetRnpPdf : public AbsICPVPdf {
- public:
-    explicit RkRdetRnpPdf(const DataClass &dc);
-    ///
-    /// \brief operator (). Calculate PDF
-    /// \param ext
-    /// \return
-    ///
-    double operator()(const ICPVEvt& ext);
-    ///
-    /// \brief operator (). Calculate PDF
-    /// \param x
-    /// \return
-    ///
-    double operator()(const double& x);
-    ///
-    /// \brief EfRkRdetRnp_fullrec. Unnormalized convolution Exp x Gauss
-    /// \param evt
-    /// \return
-    ///
-    double EfRkRdetRnp_fullrec(const ICPVEvt& evt);
-    ///
-    /// \brief MfRkRdetRnp_fullrec. Unnormalized convolution Exp*cos x Gauss
-    /// \param evt
-    /// \return
-    ///
-    double MfRkRdetRnp_fullrec(const ICPVEvt& evt);
-    ///
-    /// \brief AfRkRdetRnp_fullrec. Unnormalized convolution Exp*sin x Gauss
-    /// \param evt
-    /// \return
-    ///
-    double AfRkRdetRnp_fullrec(const ICPVEvt& evt);
-    ///
-    /// \brief norm_EfRkRdetRnp_fullrec. Normalization for
-    /// convolution Exp x Gauss
-    /// \param evt
-    /// \return
-    ///
-    double norm_EfRkRdetRnp_fullrec(const ICPVEvt& evt);
-    ///
-    /// \brief norm_MfRkRdetRnp_fullrec. Normalization for
-    /// convolution Exp*cos x Gauss
-    /// \param evt
-    /// \return
-    ///
-    double norm_MfRkRdetRnp_fullrec(const ICPVEvt& evt);
-    ///
-    /// \brief norm_AfRkRdetRnp_fullrec. Normalization for
-    /// convolution Exp*sin x Gauss
-    /// \param evt
-    /// \return
-    ///
-    double norm_AfRkRdetRnp_fullrec(const ICPVEvt& evt);
-
- private:
     ///
     /// \brief ReadVars
     /// \param evt
     /// \return
     ///
-    int ReadVars(const ICPVEvt& evt);
+    int ReadVars(const ICPVEvt& evt) const;
     ///
     /// \brief ReadAndCalc
     /// \param evt
     /// \return
     ///
-    int ReadAndCalc(const ICPVEvt& evt);
+    int ReadAndCalc(const ICPVEvt& evt) const;
     ///
     /// \brief PdfAB
     /// \param evt
@@ -105,91 +51,87 @@ class RkRdetRnpPdf : public AbsICPVPdf {
     /// \param no_interf
     /// \return
     ///
-    double PdfAB(const ICPVEvt& evt, const bool otlr = true,
-                 const bool no_interf = false);
+    double PdfAB(const ICPVEvt& evt, bool otlr = true,
+                 bool no_interf = false) const;
     ///
     /// \brief PdfAB
     /// \param otlr
     /// \param no_interf
     /// \return
     ///
-    double PdfAB(const bool otlr = true, const bool no_interf = false);
+    double PdfAB(bool otlr = true, bool no_interf = false) const;
     ///
     /// \brief EfRkRdetRnp_fullrec
     /// \return
     ///
-    double EfRkRdetRnp_fullrec(void);
+    double EfRkRdetRnp_fullrec(void) const;
     ///
     /// \brief MfRkRdetRnp_fullrec
     /// \return
     ///
-    double MfRkRdetRnp_fullrec(void);
+    double MfRkRdetRnp_fullrec(void) const;
     ///
     /// \brief AfRkRdetRnp_fullrec
     /// \return
     ///
-    double AfRkRdetRnp_fullrec(void);
+    double AfRkRdetRnp_fullrec(void) const;
     ///
     /// \brief norm_EfRkRdetRnp_fullrec
     /// \return
     ///
-    double norm_EfRkRdetRnp_fullrec(void);
+    double norm_EfRkRdetRnp_fullrec(void) const;
     ///
     /// \brief norm_MfRkRdetRnp_fullrec
     /// \return
     ///
-    double norm_MfRkRdetRnp_fullrec(void);
+    double norm_MfRkRdetRnp_fullrec(void) const;
     ///
     /// \brief norm_AfRkRdetRnp_fullrec
     /// \return
     ///
-    double norm_AfRkRdetRnp_fullrec(void);
+    double norm_AfRkRdetRnp_fullrec(void) const;
     ///
     /// \brief EfRkRdetRnp_full_sup
     /// \param mu
     /// \param sigma
     /// \return
     ///
-    double EfRkRdetRnp_full_sup(const double& mu, const double& sigma);
+    double EfRkRdetRnp_full_sup(double mu, double sigma) const;
     ///
     /// \brief MfRkRdetRnp_full_sup
     /// \param mu
     /// \param sigma
     /// \return
     ///
-    double MfRkRdetRnp_full_sup(const double& mu, const double& sigma);
+    double MfRkRdetRnp_full_sup(double mu, double sigma) const;
     ///
     /// \brief AfRkRdetRnp_full_sup
     /// \param mu
     /// \param sigma
     /// \return
     ///
-    double AfRkRdetRnp_full_sup(const double& mu, const double& sigma);
+    double AfRkRdetRnp_full_sup(double mu, double sigma) const;
     ///
     /// \brief norm_EfRkRdetRnp_full_sup
     /// \param mu
     /// \param sigma
     /// \return
     ///
-    double norm_EfRkRdetRnp_full_sup(const double& mu, const double& sigma);
+    double norm_EfRkRdetRnp_full_sup(double mu, double sigma) const;
     ///
     /// \brief norm_MfRkRdetRnp_full_sup
     /// \param mu
     /// \param sigma
     /// \return
     ///
-    double norm_MfRkRdetRnp_full_sup(const double& mu, const double& sigma);
+    double norm_MfRkRdetRnp_full_sup(double mu, double sigma) const;
     ///
     /// \brief norm_AfRkRdetRnp_full_sup
     /// \param mu
     /// \param sigma
     /// \return
     ///
-    double norm_AfRkRdetRnp_full_sup(const double& mu, const double& sigma);
-//    double AddOutlier( const double& x, const double& Lin,
-//    const double& nLi = 1.0, const double& alpha = 1.0);
-//    double Add_Outlier(const double& x, const double& Lin,
-//    const double& nLi, const double& alpha);
+    double norm_AfRkRdetRnp_full_sup(double mu, double sigma) const;
     ///
     /// \brief Xsum4
     /// \param Xmm
@@ -198,116 +140,167 @@ class RkRdetRnpPdf : public AbsICPVPdf {
     /// \param Xtt
     /// \return
     ///
-    double Xsum4(const double& Xmm, const double& Xmt,
-                 const double& Xtm, const double& Xtt) const;
+    double Xsum4(double Xmm, double Xmt, double Xtm, double Xtt) const;
     ///
     /// \brief Xsum2mmmt
     /// \param Xmm
     /// \param Xmt
     /// \return
     ///
-    double Xsum2mmmt(const double& Xmm, const double& Xmt) const;
+    double Xsum2mmmt(double Xmm, double Xmt) const;
     ///
     /// \brief Xsum2mmtm
     /// \param Xmm
     /// \param Xtm
     /// \return
     ///
-    double Xsum2mmtm(const double& Xmm, const double& Xtm) const;
+    double Xsum2mmtm(double Xmm, double Xtm) const;
     ///
     /// \brief flavor
     ///
-    int flavor;
+//    int flavor;
     ///
     /// \brief keeptagl
     ///
-    int keeptagl;
+    mutable int keeptagl;
     ///
     /// \brief m_svd
     ///
-    int m_svd;
+//    int m_svd;
     ///
     /// \brief cexp
     ///
-    double cexp;
+    mutable double cexp;
     ///
     /// \brief amix
     ///
     double amix;
     ///
-    /// \brief m_wtag
-    ///
-    WTag m_wtag;
-    ///
     /// \brief dt
     ///
-    double dt;
+    mutable double dt;
     ///
     /// \brief m_rvar
     ///
-    RdetVar m_rvar;
+    mutable RdetVar m_rvar;
     ///
     /// \brief m_avar
     ///
-    RdetVar m_avar;
+    mutable RdetVar m_avar;
     ///
     /// \brief costhBcms
     ///
-    double costhBcms;
+    mutable double costhBcms;
     ///
     /// \brief m_apar
     ///
-    RascRnpPars m_apar;
+    mutable RascRnpPars m_apar;
     ///
     /// \brief m_rpar
     ///
-    RrecPars m_rpar;
+    mutable RrecPars m_rpar;
     ///
     /// \brief m_kpar
     ///
-    RkPar m_kpar;
+    mutable RkPar m_kpar;
+    ///
+    /// \brief m_wtag
+    ///
+    const WTag m_wtag;
     ///
     /// \brief m_cnst
     ///
-    ResConst m_cnst;
+    const ResConst m_cnst;
     ///
     /// \brief coco
     ///
-    conv_coef coco;
+    const conv_coef coco;
     ///
     /// \brief mu_mm
     ///
-    double mu_mm;
+    mutable double mu_mm;
     ///
     /// \brief mu_mt
     ///
-    double mu_mt;
+    mutable double mu_mt;
     ///
     /// \brief mu_tm
     ///
-    double mu_tm;
+    mutable double mu_tm;
     ///
     /// \brief mu_tt
     ///
-    double mu_tt;
+    mutable double mu_tt;
     ///
     /// \brief s_mm
     ///
-    double s_mm;
+    mutable double s_mm;
     ///
     /// \brief s_mt
     ///
-    double s_mt;
+    mutable double s_mt;
     ///
     /// \brief s_tm
     ///
-    double s_tm;
+    mutable double s_tm;
     ///
     /// \brief s_tt
     ///
-    double s_tt;
+    mutable double s_tt;
+
+ public:
+    explicit RkRdetRnpPdf(const DataClass &dc);
+    ///
+    /// \brief operator (). Calculate PDF
+    /// \param ext
+    /// \return
+    ///
+    double operator()(const ICPVEvt& ext) const override final;
+    ///
+    /// \brief operator (). Calculate PDF
+    /// \param x
+    /// \return
+    ///
+    double operator()(double x) const override final;
+    ///
+    /// \brief EfRkRdetRnp_fullrec. Unnormalized convolution Exp x Gauss
+    /// \param evt
+    /// \return
+    ///
+    double EfRkRdetRnp_fullrec(const ICPVEvt& evt) const;
+    ///
+    /// \brief MfRkRdetRnp_fullrec. Unnormalized convolution Exp*cos x Gauss
+    /// \param evt
+    /// \return
+    ///
+    double MfRkRdetRnp_fullrec(const ICPVEvt& evt) const;
+    ///
+    /// \brief AfRkRdetRnp_fullrec. Unnormalized convolution Exp*sin x Gauss
+    /// \param evt
+    /// \return
+    ///
+    double AfRkRdetRnp_fullrec(const ICPVEvt& evt) const;
+    ///
+    /// \brief norm_EfRkRdetRnp_fullrec. Normalization for
+    /// convolution Exp x Gauss
+    /// \param evt
+    /// \return
+    ///
+    double norm_EfRkRdetRnp_fullrec(const ICPVEvt& evt) const;
+    ///
+    /// \brief norm_MfRkRdetRnp_fullrec. Normalization for
+    /// convolution Exp*cos x Gauss
+    /// \param evt
+    /// \return
+    ///
+    double norm_MfRkRdetRnp_fullrec(const ICPVEvt& evt) const;
+    ///
+    /// \brief norm_AfRkRdetRnp_fullrec. Normalization for
+    /// convolution Exp*sin x Gauss
+    /// \param evt
+    /// \return
+    ///
+    double norm_AfRkRdetRnp_fullrec(const ICPVEvt& evt) const;
 };
 
 }  // namespace libTatami
-
-#endif  // INCLUDE_RKRDETRNPPDF_H_

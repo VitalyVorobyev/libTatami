@@ -8,54 +8,22 @@
  *
  */
 
-#ifndef INCLUDE_CONV_COEF_H_
-#define INCLUDE_CONV_COEF_H_
+#pragma once
 
 #include <iostream>
-#include <cmath>
 
-#include "./rascrnppars.h"
-#include "./rkparam.h"
-#include "./fenp.h"
+#include "fenp.h"
 
 namespace libTatami {
 
+class RascRnpPars;
+class RkPar;
+
 ///
 /// \brief The conv_coef class.
+/// \todo Simplify methodss arguments: use dedicated structures
 ///
 class conv_coef {
- public:
-    ///
-    /// \brief conv_coef
-    ///
-    conv_coef(void) : state(0) {}
-    ///
-    /// \brief Clear
-    ///
-    void Clear() {state = 0;}
-    ///
-    /// \brief Ecoefs
-    /// \param pRasc
-    /// \param pRk
-    /// \return
-    ///
-    const fEnp& Ecoefs(const RascRnpPars& pRasc, const RkPar& pRk);
-    ///
-    /// \brief Acoefs
-    /// \param pRasc
-    /// \param pRk
-    /// \return
-    ///
-    const fEnp& Acoefs(const RascRnpPars& pRasc, const RkPar& pRk);
-    ///
-    /// \brief Mcoefs
-    /// \param pRasc
-    /// \param pRk
-    /// \return
-    ///
-    const fEnp& Mcoefs(const RascRnpPars& pRasc, const RkPar& pRk);
-
- private:
     ///
     /// \brief add_EpEn_coef
     /// \param fEp1
@@ -64,9 +32,8 @@ class conv_coef {
     /// \param tau2
     /// \param weight
     ///
-    void add_EpEn_coef(double* fEp1, double* fEn2,
-                       const double& tau1, const double& tau2,
-                       const double& weight = 1) const;
+    void add_EpEn_coef(double& fEp1, double& fEn2,
+                       double tau1, double tau2, double weight = 1) const;
     ///
     /// \brief add_EnEp_coef
     /// \param fEn1
@@ -75,9 +42,8 @@ class conv_coef {
     /// \param tau2
     /// \param weight
     ///
-    void add_EnEp_coef(double* fEn1, double* fEp2,
-                       const double& tau1, const double& tau2,
-                       const double& weight = 1) const;
+    void add_EnEp_coef(double& fEn1, double& fEp2,
+                       double tau1, double tau2, double weight = 1) const;
     ///
     /// \brief add_EnEn_coef
     /// \param fEn1
@@ -87,9 +53,8 @@ class conv_coef {
     /// \param tau2
     /// \param weight
     ///
-    void add_EnEn_coef(double* fEn1, double* fEn2, double* fxEn1,
-                       const double& tau1, const double& tau2,
-                       const double& weight = 1) const;
+    void add_EnEn_coef(double& fEn1, double& fEn2, double& fxEn1,
+                       double tau1, double tau2, double weight = 1) const;
     ///
     /// \brief add_EpEp_coef
     /// \param fEp1
@@ -99,9 +64,8 @@ class conv_coef {
     /// \param tau2
     /// \param weight
     ///
-    void add_EpEp_coef(double* fEp1, double* fEp2, double* fxEp1,
-                       const double& tau1, const double& tau2,
-                       const double& weight = 1) const;
+    void add_EpEp_coef(double& fEp1, double& fEp2, double& fxEp1,
+                       double tau1, double tau2, double weight = 1) const;
     ///
     /// \brief add_ApEp_coef
     /// \param fAp1
@@ -112,9 +76,9 @@ class conv_coef {
     /// \param tau2
     /// \param weight
     ///
-    void add_ApEp_coef(double* fAp1, double* fMp1, double* fEp2,
-                       const double& tau1, const double& dm,
-                       const double& tau2, const double& weight = 1.) const;
+    void add_ApEp_coef(double& fAp1, double& fMp1, double& fEp2,
+                       double tau1, double dm, double tau2,
+                       double weight = 1.) const;
     ///
     /// \brief add_AnEn_coef
     /// \param fAn1
@@ -125,9 +89,9 @@ class conv_coef {
     /// \param tau2
     /// \param weight
     ///
-    void add_AnEn_coef(double* fAn1, double* fMn1, double* fEn2,
-                       const double& tau1, const double& dm,
-                       const double& tau2, const double& weight = 1.) const;
+    void add_AnEn_coef(double& fAn1, double& fMn1, double& fEn2,
+                       double tau1, double dm,
+                       double tau2, double weight = 1.) const;
     ///
     /// \brief add_ApEn_coef
     /// \param fAp1
@@ -138,9 +102,9 @@ class conv_coef {
     /// \param tau2
     /// \param weight
     ///
-    void add_ApEn_coef(double* fAp1, double* fMp1, double* fEn2,
-                       const double& tau1, const double& dm,
-                       const double& tau2, const double& weight = 1.) const;
+    void add_ApEn_coef(double& fAp1, double& fMp1, double& fEn2,
+                       double tau1, double dm,
+                       double tau2, double weight = 1.) const;
     ///
     /// \brief add_AnEp_coef
     /// \param fAn1
@@ -151,9 +115,9 @@ class conv_coef {
     /// \param tau2
     /// \param weight
     ///
-    void add_AnEp_coef(double* fAn1, double* fMn1, double* fEp2,
-                       const double& tau1, const double& dm,
-                       const double& tau2, const double& weight = 1.) const;
+    void add_AnEp_coef(double& fAn1, double& fMn1, double& fEp2,
+                       double tau1, double dm,
+                       double tau2, double weight = 1.) const;
     ///
     /// \brief add_MpEp_coef
     /// \param fMp1
@@ -164,9 +128,9 @@ class conv_coef {
     /// \param tau2
     /// \param weight
     ///
-    void add_MpEp_coef(double* fMp1, double* fAp1, double* fEp2,
-                       const double& tau1, const double& dm,
-                       const double& tau2, const double& weight = 1.) const;
+    void add_MpEp_coef(double& fMp1, double& fAp1, double& fEp2,
+                       double tau1, double dm,
+                       double tau2, double weight = 1.) const;
     ///
     /// \brief add_MnEn_coef
     /// \param fMn1
@@ -177,9 +141,9 @@ class conv_coef {
     /// \param tau2
     /// \param weight
     ///
-    void add_MnEn_coef(double* fMn1, double* fAn1, double* fEn2,
-                       const double& tau1, const double& dm,
-                       const double& tau2, const double& weight = 1.) const;
+    void add_MnEn_coef(double& fMn1, double& fAn1, double& fEn2,
+                       double tau1, double dm,
+                       double tau2, double weight = 1.) const;
     ///
     /// \brief add_MpEn_coef
     /// \param fMp1
@@ -190,9 +154,9 @@ class conv_coef {
     /// \param tau2
     /// \param weight
     ///
-    void add_MpEn_coef(double* fMp1, double* fAp1, double* fEn2,
-                       const double& tau1, const double& dm,
-                       const double& tau2, const double& weight = 1.) const;
+    void add_MpEn_coef(double& fMp1, double& fAp1, double& fEn2,
+                       double tau1, double dm,
+                       double tau2, double weight = 1.) const;
     ///
     /// \brief add_MnEp_coef
     /// \param fMn1
@@ -203,31 +167,49 @@ class conv_coef {
     /// \param tau2
     /// \param weight
     ///
-    void add_MnEp_coef(double* fMn1, double* fAn1, double* fEp2,
-                       const double& tau1, const double& dm,
-                       const double& tau2, const double& weight = 1.) const;
+    void add_MnEp_coef(double& fMn1, double& fAn1, double& fEp2,
+                       double tau1, double dm, double tau2,
+                       double weight = 1.) const;
     ///
     /// \brief f
     ///
-    fEnp f;
+    mutable fEnp f;
+    enum class State : int {A = 1, E = 2, M = 3, Null = 0};
     ///
     /// \brief state
     ///
-    int state;
+    mutable State state;
+
+ public:
     ///
-    /// \brief A
+    /// \brief conv_coef
     ///
-    static const int A;
+    conv_coef(void) : state(State::Null) {}
     ///
-    /// \brief E
+    /// \brief Clear
     ///
-    static const int E;
+    void Clear() const {state = State::Null;}
     ///
-    /// \brief M
+    /// \brief Ecoefs
+    /// \param pRasc
+    /// \param pRk
+    /// \return
     ///
-    static const int M;
+    const fEnp& Ecoefs(const RascRnpPars& pRasc, const RkPar& pRk) const;
+    ///
+    /// \brief Acoefs
+    /// \param pRasc
+    /// \param pRk
+    /// \return
+    ///
+    const fEnp& Acoefs(const RascRnpPars& pRasc, const RkPar& pRk) const;
+    ///
+    /// \brief Mcoefs
+    /// \param pRasc
+    /// \param pRk
+    /// \return
+    ///
+    const fEnp& Mcoefs(const RascRnpPars& pRasc, const RkPar& pRk) const;
 };
 
 }  // namespace libTatami
-
-#endif  // INCLUDE_CONV_COEF_H_

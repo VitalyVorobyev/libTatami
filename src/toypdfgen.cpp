@@ -8,14 +8,18 @@
  **
  **/
 
-#include "../include/toypdfgen.h"
+#include "toypdfgen.h"
 
-using vectd = std::vector<double>;
+#include <algorithm>
+
+#include "abspdf.h"
 
 using std::cout;
 using std::endl;
 using std::cerr;
 using std::random_device;
+using std::max;
+using std::vector;
 
 namespace libTatami {
 
@@ -34,12 +38,12 @@ double ToyPdfGen::FindMaj(uint64_t N) {
     return maj;
 }
 
-auto ToyPdfGen::Generate(const uint64_t N, const bool silent) {
-    vectd vec;
-    double maj = 1.1 * FindMaj(N / 5);
+vector<double> ToyPdfGen::Generate(uint64_t N, bool silent) {
+    vector<double> vec;
+    double maj = 1.1 * FindMaj(max(N / 5, 5000ul));
     if (!silent) cout << "Majorant: " << maj << endl;
-    unidist unifMaj(0., maj);
-    rndmeng ren;
+    std::uniform_real_distribution<double> unifMaj(0., maj);
+    std::default_random_engine ren;
 
     uint64_t tries = 0;
     uint64_t Evtn = 0;
@@ -60,22 +64,23 @@ auto ToyPdfGen::Generate(const uint64_t N, const bool silent) {
     }
     const double Eff = static_cast<double>(Evtn) / tries;
     if (tries == m_maxtries) {
-        cout << "ToyPdfGen::Generate: tries limit exceed!" << endl;
-        cout << "  majorant:         " << maj        << endl;
-        cout << "  efficiency:       " << Eff        << endl;
-        cout << "  events generated: " << Evtn       << endl;
-        cout << "  tries limit: "      << m_maxtries << endl;
+        cout << "ToyPdfGen::Generate: tries limit exceed!" << endl
+             << "  majorant:         " << maj        << endl
+             << "  efficiency:       " << Eff        << endl
+             << "  events generated: " << Evtn       << endl
+             << "  tries limit: "      << m_maxtries << endl;
     }
     if (!silent) cout << "Done!. Efficiency " << Eff << endl;
     return std::move(vec);
 }
 
 void ToyPdfGen::init(void) {
-    unif = new unidist(m_pdf.ul(), m_pdf.ll());
+    unif = std::make_unique<std::uniform_real_distribution<double>>(
+                m_pdf.ul(), m_pdf.ll());
     SetSeed(m_seed);
 }
 
-void ToyPdfGen::SetSeed(const uint32_t seed) {
+void ToyPdfGen::SetSeed(uint32_t seed) {
   m_seed = seed;
   if (!seed) re.seed(random_device {}());
   else       re.seed(m_seed);

@@ -11,23 +11,27 @@
 #include <iostream>
 #include <fstream>
 
-#include "../include/bkgpdfparset.h"
+#include "bkgpdfparset.h"
 
 using std::cout;
 using std::endl;
 using std::ifstream;
 using std::getline;
 using std::sscanf;
+using std::string;
 
 namespace libTatami {
 
 BkgPDFParSet::BkgPDFParSet():
     m_S_main_mlt(1.), m_S_tail_mlt(3.), m_f_tail_mlt(0.2), m_f_delta_mlt(0.7),
     m_S_main_sgl(1.), m_S_tail_sgl(3.), m_f_tail_sgl(0.2), m_f_delta_sgl(0.6),
-    m_mu(0.), m_mu_delta(0.), m_tau(1.3), m_f_otlr(0.), m_s_otlr(30.)
-{}
+    m_mu(0.), m_mu_delta(0.), m_tau(1.3), m_f_otlr(0.), m_s_otlr(30.) {}
 
-int BkgPDFParSet::GetParametersFromFile(const str& fname) {
+BkgPDFParSet::BkgPDFParSet(const string fname) : BkgPDFParSet() {
+    GetParametersFromFile(fname);
+}
+
+int BkgPDFParSet::GetParametersFromFile(const string& fname) {
     ifstream ifile(fname.c_str(), ifstream::in);
     if (!ifile.is_open()) {
         cout << "Can't open file " << fname << endl;
@@ -35,14 +39,14 @@ int BkgPDFParSet::GetParametersFromFile(const str& fname) {
     } else {
         cout << "Getting background description from file " << fname << endl;
     }
-    str line, name;
+    string line, name;
     double val, err;
     char namech[15];
     int counter = 0;
     for (int i = 0; i < 13; i++) {
         getline(ifile, line);
         sscanf(line.c_str(), "%s = %lf +- %lf", namech, &val, &err);
-        name = str(namech);
+        name = string(namech);
         cout << name << " " << val << " +- " << err << endl;
         if (name == "tau")         { m_tau         = val; counter++; continue;}
         if (name == "mu")          { m_mu          = val; counter++; continue;}

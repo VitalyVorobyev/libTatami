@@ -8,89 +8,145 @@
  *
  */
 
-#ifndef INCLUDE_BKGPDFPARSET_H_
-#define INCLUDE_BKGPDFPARSET_H_
+#pragma once
 
 #include <string>
 
 namespace libTatami {
 
-typedef std::string str;
-
 ///
 /// \brief The BkgPDFParSet class. Parametrs for background dt distribution
+/// \todo implement parameters with std::map<std::string, double>
 ///
 class BkgPDFParSet{
+    ///
+    /// \brief m_S_main_mlt
+    ///
+    double m_S_main_mlt;
+    ///
+    /// \brief m_S_tail_mlt
+    ///
+    double m_S_tail_mlt;
+    ///
+    /// \brief m_f_tail_mlt
+    ///
+    double m_f_tail_mlt;
+    ///
+    /// \brief m_f_delta_mlt
+    ///
+    double m_f_delta_mlt;
+    ///
+    /// \brief m_S_main_sgl
+    ///
+    double m_S_main_sgl;
+    ///
+    /// \brief m_S_tail_sgl
+    ///
+    double m_S_tail_sgl;
+    ///
+    /// \brief m_f_tail_sgl
+    ///
+    double m_f_tail_sgl;
+    ///
+    /// \brief m_f_delta_sgl
+    ///
+    double m_f_delta_sgl;
+    ///
+    /// \brief m_mu
+    ///
+    double m_mu;
+    ///
+    /// \brief m_mu_delta
+    ///
+    double m_mu_delta;
+    ///
+    /// \brief m_tau
+    ///
+    double m_tau;
+    ///
+    /// \brief m_f_otlr
+    ///
+    double m_f_otlr;
+    ///
+    /// \brief m_s_otlr
+    ///
+    double m_s_otlr;
+
  public:
     ///
     /// \brief BkgPDFParSet
     ///
     BkgPDFParSet();
+    /**
+     * @brief BkgPDFParSet
+     * @param fname
+     */
+    explicit BkgPDFParSet(const std::string fname);
     ///
     /// \brief SetTau
     /// \param x
     ///
-    void SetTau(const double& x) {m_tau = x;}
+    void SetTau(double& x) {m_tau = x;}
     ///
     /// \brief Set_f_tail_mlt
     /// \param x
     ///
-    void Set_f_tail_mlt(const double& x) {m_f_tail_mlt = x;}
+    void Set_f_tail_mlt(double& x) {m_f_tail_mlt = x;}
     ///
     /// \brief Set_S_main_mlt
     /// \param x
     ///
-    void Set_S_main_mlt(const double& x) {m_S_main_mlt = x;}
+    void Set_S_main_mlt(double& x) {m_S_main_mlt = x;}
     ///
     /// \brief Set_S_tail_mlt
     /// \param x
     ///
-    void Set_S_tail_mlt(const double& x) {m_S_tail_mlt = x;}
+    void Set_S_tail_mlt(double& x) {m_S_tail_mlt = x;}
     ///
     /// \brief Set_f_tail_sgl
     /// \param x
     ///
-    void Set_f_tail_sgl(const double& x) {m_f_tail_sgl = x;}
+    void Set_f_tail_sgl(double& x) {m_f_tail_sgl = x;}
     ///
     /// \brief Set_S_main_sgl
     /// \param x
     ///
-    void Set_S_main_sgl(const double& x) {m_S_main_sgl = x;}
+    void Set_S_main_sgl(double& x) {m_S_main_sgl = x;}
     ///
     /// \brief Set_S_tail_sgl
     /// \param x
     ///
-    void Set_S_tail_sgl(const double& x) {m_S_tail_sgl = x;}
+    void Set_S_tail_sgl(double& x) {m_S_tail_sgl = x;}
     ///
     /// \brief Set_f_delta_mlt
     /// \param x
     ///
-    void Set_f_delta_mlt(const double& x) {m_f_delta_mlt = x;}
+    void Set_f_delta_mlt(double& x) {m_f_delta_mlt = x;}
     ///
     /// \brief Set_f_delta_sgl
     /// \param x
     ///
-    void Set_f_delta_sgl(const double& x) {m_f_delta_sgl = x;}
+    void Set_f_delta_sgl(double& x) {m_f_delta_sgl = x;}
     ///
     /// \brief Set_mu_delta
     /// \param x
     ///
-    void Set_mu_delta(const double& x) {m_mu_delta = x;}
+    void Set_mu_delta(double& x) {m_mu_delta = x;}
     ///
     /// \brief Set_mu
     /// \param x
     ///
-    void Set_mu(const double& x) {m_mu = x;}
+    void Set_mu(double& x) {m_mu = x;}
     ///
     /// \brief Set_f_otlr
     /// \param x
     ///
-    void Set_f_otlr(const double& x) {m_f_otlr = x;}
+    void Set_f_otlr(double& x) {m_f_otlr = x;}
     ///
     /// \brief Set_s_otlr
     /// \param x
     ///
-    void Set_s_otlr(const double& x) {m_s_otlr = x;}
+    void Set_s_otlr(double& x) {m_s_otlr = x;}
     ///
     /// \brief tau
     /// \return
@@ -161,63 +217,7 @@ class BkgPDFParSet{
     /// \param fname
     /// \return
     ///
-    int GetParametersFromFile(const str& fname);
-
- private:
-    ///
-    /// \brief m_S_main_mlt
-    ///
-    double m_S_main_mlt;
-    ///
-    /// \brief m_S_tail_mlt
-    ///
-    double m_S_tail_mlt;
-    ///
-    /// \brief m_f_tail_mlt
-    ///
-    double m_f_tail_mlt;
-    ///
-    /// \brief m_f_delta_mlt
-    ///
-    double m_f_delta_mlt;
-    ///
-    /// \brief m_S_main_sgl
-    ///
-    double m_S_main_sgl;
-    ///
-    /// \brief m_S_tail_sgl
-    ///
-    double m_S_tail_sgl;
-    ///
-    /// \brief m_f_tail_sgl
-    ///
-    double m_f_tail_sgl;
-    ///
-    /// \brief m_f_delta_sgl
-    ///
-    double m_f_delta_sgl;
-    ///
-    /// \brief m_mu
-    ///
-    double m_mu;
-    ///
-    /// \brief m_mu_delta
-    ///
-    double m_mu_delta;
-    ///
-    /// \brief m_tau
-    ///
-    double m_tau;
-    ///
-    /// \brief m_f_otlr
-    ///
-    double m_f_otlr;
-    ///
-    /// \brief m_s_otlr
-    ///
-    double m_s_otlr;
+    int GetParametersFromFile(const std::string& fname);
 };
 
 }  // namespace libTatami
-
-#endif  // INCLUDE_BKGPDFPARSET_H_

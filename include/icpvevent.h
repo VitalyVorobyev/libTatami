@@ -8,28 +8,40 @@
  **
  **/
 
-#ifndef INCLUDE_ICPVEVENT_H_
-#define INCLUDE_ICPVEVENT_H_
+#pragma once
 
 #include <string>
 
-#include "./icpvvar.h"
+#include "icpvvar.h"
 
 namespace libTatami {
-
-typedef std::string str;
 
 ///
 /// \brief The ICPVEvt class. Class for representation of tuple
 /// tuple structure is initialized with text config file
 ///
 class ICPVEvt {
+    ///
+    /// \brief ReadStructure
+    /// \param fname
+    /// \return
+    ///
+    int ReadStructure(const std::string& fname);
+    ///
+    /// \brief m_IVars
+    ///
+    ivarvec m_IVars;
+    ///
+    /// \brief m_DVars
+    ///
+    dvarvec m_DVars;
+
  public:
     ///
     /// \brief ICPVEvt
     /// \param fname
     ///
-    explicit ICPVEvt(const str& fname);
+    explicit ICPVEvt(const std::string& fname);
     ///
     /// \brief ICPVEvt
     /// \param ev
@@ -58,73 +70,73 @@ class ICPVEvt {
     /// \param i
     /// \param val
     ///
-    void SetIVar(const unsigned i, const int val);
+    void SetIVar(uint32_t i, uint32_t val);
     ///
     /// \brief SetIVar
     /// \param name
     /// \param val
     ///
-    void SetIVar(const str& name, const int val);
+    void SetIVar(const std::string& name, uint32_t val);
     ///
     /// \brief SetDVar
     /// \param i
     /// \param val
     ///
-    void SetDVar(const unsigned i, const double& val);
+    void SetDVar(uint32_t i, double val);
     ///
     /// \brief SetDVar
     /// \param name
     /// \param val
     ///
-    void SetDVar(const str& name, const double& val);
+    void SetDVar(const std::string& name, double val);
     ///
     /// \brief IName
     /// \param i
     /// \return
     ///
-    str IName(const unsigned i) const;
+    std::string IName(uint32_t i) const;
     ///
     /// \brief IVar
     /// \param i
     /// \return
     ///
-    int IVar(const unsigned i) const;
+    int IVar(uint32_t i) const;
     ///
     /// \brief IVar
     /// \param name
     /// \return
     ///
-    int IVar(const str& name) const;
+    int IVar(const std::string& name) const;
     ///
     /// \brief DName
     /// \param i
     /// \return
     ///
-    str DName(const unsigned i) const;
+    std::string DName(uint32_t i) const;
     ///
     /// \brief DVar
     /// \param i
     /// \return
     ///
-    double DVar(const unsigned i) const;
+    double DVar(uint32_t i) const;
     ///
     /// \brief DVar
     /// \param name
     /// \return
     ///
-    double DVar(const str& name) const;
+    double DVar(const std::string& name) const;
     ///
     /// \brief FindIVar
     /// \param name
     /// \return
     ///
-    int FindIVar(const str& name) const;
+    int FindIVar(const std::string& name) const;
     ///
     /// \brief FindDVar
     /// \param name
     /// \return
     ///
-    int FindDVar(const str& name) const;
+    int FindDVar(const std::string& name) const;
     ///
     /// \brief IVars
     /// \return
@@ -139,24 +151,6 @@ class ICPVEvt {
     /// \brief PrintStructure
     ///
     void PrintStructure(void) const;
-
- private:
-    ///
-    /// \brief ReadStructure
-    /// \param fname
-    /// \return
-    ///
-    int ReadStructure(const str& fname);
-    ///
-    /// \brief m_IVars
-    ///
-    ivarvec m_IVars;
-    ///
-    /// \brief m_DVars
-    ///
-    dvarvec m_DVars;
 };
 
 }  // namespace libTatami
-
-#endif  // INCLUDE_ICPVEVENT_H_

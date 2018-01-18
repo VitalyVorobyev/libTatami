@@ -9,12 +9,60 @@
  **
  **/
 
-#ifndef INCLUDE_RKPARAM_H_
-#define INCLUDE_RKPARAM_H_
+#pragma once
 
 namespace libTatami {
 
 class RkPar {
+    ///
+    /// \brief m_ak
+    ///
+    double m_ak;
+    ///
+    /// \brief m_ck
+    ///
+    double m_ck;
+    ///
+    /// \brief m_r_ckak
+    ///
+    double m_r_ckak;
+    ///
+    /// \brief m_ndm_n
+    ///
+    double m_ndm_n;
+    ///
+    /// \brief m_ndm_p
+    ///
+    double m_ndm_p;
+    ///
+    /// \brief m_ndmtau
+    ///
+    double m_ndmtau;
+    ///
+    /// \brief m_cktau
+    ///
+    double m_cktau;
+    ///
+    /// \brief m_ntau_n
+    ///
+    double m_ntau_n;
+    ///
+    /// \brief m_ntau_p
+    ///
+    double m_ntau_p;
+    ///
+    /// \brief m_fact_n_e
+    ///
+    double m_fact_n_e;
+    ///
+    /// \brief m_fact_p_e
+    ///
+    double m_fact_p_e;
+    ///
+    /// \brief m_fact_am
+    ///
+    double m_fact_am;
+
  public:
     ///
     /// \brief RkPar
@@ -29,8 +77,7 @@ class RkPar {
     /// \param dm
     /// \return
     ///
-    int SetAkCk(const double& costh, const double& ecm,
-                const double& tau, const double& dm);
+    int SetAkCk(double costh, double ecm, double tau, double dm);
     ///
     /// \brief ak
     /// \return
@@ -91,59 +138,6 @@ class RkPar {
     /// \return
     ///
     double fact_am(void) const {return m_fact_am;}
-
- private:
-    ///
-    /// \brief m_ak
-    ///
-    double m_ak;
-    ///
-    /// \brief m_ck
-    ///
-    double m_ck;
-    ///
-    /// \brief m_r_ckak
-    ///
-    double m_r_ckak;
-    ///
-    /// \brief m_ndm_n
-    ///
-    double m_ndm_n;
-    ///
-    /// \brief m_ndm_p
-    ///
-    double m_ndm_p;
-    ///
-    /// \brief m_ndmtau
-    ///
-    double m_ndmtau;
-    ///
-    /// \brief m_cktau
-    ///
-    double m_cktau;
-    ///
-    /// \brief m_ntau_n
-    ///
-    double m_ntau_n;
-    ///
-    /// \brief m_ntau_p
-    ///
-    double m_ntau_p;
-    ///
-    /// \brief m_fact_n_e
-    ///
-    double m_fact_n_e;
-    ///
-    /// \brief m_fact_p_e
-    ///
-    double m_fact_p_e;
-    ///
-    /// \brief m_fact_am
-    ///
-    double m_fact_am;
 };
 
 }  // namespace libTatami
-
-#endif  // INCLUDE_RKPARAM_H_
-
