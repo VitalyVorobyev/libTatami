@@ -10,6 +10,9 @@
 
 #pragma once
 
+#include <vector>
+#include <cstdint>
+
 #include "cnvl.h"
 
 namespace libTatami {
@@ -69,6 +72,8 @@ class AbsPdf : public cnvl {
     void SetRange(double min, double max) {
         m_ll = min, m_ul = max;
     }
+    std::vector<double> tabulate(uint32_t ndots=1000,
+                                 double lo=0., double hi=0.) const;
 };
 
 }  // namespace libTatami
