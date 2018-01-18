@@ -12,7 +12,6 @@
 #include <cmath>
 
 #include "toypdf.h"
-#include "typedefs.h"
 #include "icpvevent.h"
 
 using std::cout;
@@ -77,7 +76,7 @@ double ToyPdf::operator() (double dt, double c, double s,
 }
 
 double ToyPdf::pdfSig(double dt, double wid) const {
-    double pdf = 0; double norm_pdf = 0;
+    double pdf = 0; double norm_pdf = 1.;
     if (wid > 0) {
         pdf = Ef_conv_gauss(dt, tau(), m_m, wid) +
                 tag() * 0.5 * (1. - 2.*wtag()) / tau() * (
@@ -94,19 +93,17 @@ double ToyPdf::pdfSig(double dt, double wid) const {
                  << endl;
         }
         norm_pdf = norm_Ef_conv_gauss(ll(), ul(), tau(), m_m, wid) +
-                   tag() * 0.5 / tau() *
+                   tag() * 0.5 * (1. - 2.*wtag()) / tau() *
                    C() * norm_Mf_conv_gauss(ll(), ul(), tau(), dm(), m_m, wid);
         if (norm_pdf <= 0) {
             cerr << "Negative norm: " << norm_pdf << endl;
             return 0.;
         }
-        pdf /= norm_pdf;
     } else {
         pdf = exp(-fabs(dt) / tau()) * (1. + tag() * (1. - 2.*wtag()) *
                  (C() * cos(dm() * dt) + S() * sin(dm() * dt)));
         norm_pdf = 2 * tau() * (1. + tag() * C() * (1. - 2.*wtag()) /
                                (1. + pow(tau() * dm(), 2)));
-        pdf /= norm_pdf;
         if (pdf < 0) {
             static int counter = 0;
             if (counter++ < 10)
@@ -115,7 +112,7 @@ double ToyPdf::pdfSig(double dt, double wid) const {
             return 0.;
         }
     }
-    return pdf;
+    return pdf / norm_pdf;
 }
 
 double ToyPdf::pdfBkg(double dt, double wid) const {
